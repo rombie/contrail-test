@@ -96,6 +96,7 @@ import sys
 import time
 import unittest
 from xml.sax import saxutils
+from tcutils.update_results import TestResultDB
 
 
 # ------------------------------------------------------------------------
@@ -438,6 +439,7 @@ a.popup_link:hover {
     <td>Fail</td>
     <td>Error</td>
     <td>View</td>
+    <td>Bugs</td>
 </tr>
 %(test_list)s
 <tr id='total_row'>
@@ -446,6 +448,7 @@ a.popup_link:hover {
     <td>%(Pass)s</td>
     <td>%(fail)s</td>
     <td>%(error)s</td>
+    <td>&nbsp;</td>
     <td>&nbsp;</td>
 </tr>
 </table>
@@ -459,6 +462,7 @@ a.popup_link:hover {
     <td>%(fail)s</td>
     <td>%(error)s</td>
     <td><a href="javascript:showClassDetail('%(cid)s',%(count)s)">Detail</a></td>
+    <td>&nbsp;</td>
 </tr>
 """ # variables: (style, desc, count, Pass, fail, error, cid)
 
@@ -471,7 +475,6 @@ a.popup_link:hover {
     <!--css div popup start-->
     <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_%(tid)s')" >
         %(status)s</a>
-
     <div id='div_%(tid)s' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
         <a onfocus='this.blur();' onclick="document.getElementById('div_%(tid)s').style.display = 'none' " >
@@ -484,6 +487,9 @@ a.popup_link:hover {
     <!--css div popup end-->
 
     </td>
+    <td align='center'>
+    %(remark)s
+    </td>
 </tr>
 """ # variables: (tid, Class, style, desc, status)
 
@@ -492,6 +498,7 @@ a.popup_link:hover {
 <tr id='%(tid)s' class='%(Class)s'>
     <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
     <td colspan='5' align='center'>%(status)s</td>
+    <td>&nbsp;</td>
 </tr>
 """ # variables: (tid, Class, style, desc, status)
 
@@ -759,6 +766,17 @@ class HTMLTestRunner(Template_mixin):
         has_output = bool(o or e)
         tid = (n == 0 and 'p' or 'f') + 't%s.%s' % (cid+1,tid+1)
         name = t.id().split('.')[-1]
+        fixture = t.id().split('.')[-2]
+        remark = ''
+        results = TestResultDB()
+        bugs = results.get_bugid(fixture, name)
+        if bugs:
+            for bug in bugs:
+                remark += " <a href='http://10.84.5.133/bugs/show_bug.cgi?id=%s'> %s</a>"%(str(bug), str(bug))
+        else:
+            lastsuccessfulbuildid = results.get_lastpass(fixture, name)
+            remark += 'None open<br>Last Pass: %s'%lastsuccessfulbuildid
+        results.update_result(fixture, name, self.STATUS[n].lower())
         doc = t.shortDescription() or ""
         desc = doc and ('%s: %s' % (name, doc)) or name
         tmpl = has_output and self.REPORT_TEST_WITH_OUTPUT_TMPL or self.REPORT_TEST_NO_OUTPUT_TMPL
@@ -789,6 +807,7 @@ class HTMLTestRunner(Template_mixin):
             desc = desc,
             script = script,
             status = self.STATUS[n],
+            remark = remark
         )
         rows.append(row)
         if not has_output:
