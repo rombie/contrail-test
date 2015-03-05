@@ -29,3 +29,14 @@
 2015-03-05_01:19:34.69377 [File System] 2015/03/05 01:19:34 DEBUG - Chmod /home/vcap/.ssh/authorized_keys to 384
 2015-03-05_01:19:34.69378 [concreteService] 2015/03/05 01:19:34 DEBUG - Loading settings from fetcher
 
+
+netstat
+=======
+root@ip-10-234-12-159:~# netstat -anp |\grep -w LISTEN |\grep -v rpc
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1086/sshd
+tcp        0      0 0.0.0.0:25              0.0.0.0:*               LISTEN      929/master
+tcp        0      0 127.0.0.1:25889         0.0.0.0:*               LISTEN      1223/sshd: vcap
+tcp6       0      0 :::22                   :::*                    LISTEN      1086/sshd
+tcp6       0      0 :::25                   :::*                    LISTEN      929/master
+tcp6       0      0 ::1:25889               :::*                    LISTEN      1223/sshd: vcap
+
