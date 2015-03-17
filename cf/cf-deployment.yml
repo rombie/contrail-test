@@ -4,17 +4,18 @@ compilation:
   network: cf-network
   reuse_compilation_vms: true
   workers: 6
-director_uuid: b9b4f213-4a1c-4e99-93c1-d58a1ce86172
+director_uuid: 9d99c844-974e-4eb8-acc3-16857875e5b7
 jobs:
 - default_networks:
   - name: cf-network
-    type: dynamic
+    type: manual
   instances: 1
   name: ha_proxy_z1
   networks:
   - default: [dns, gateway]
     name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.100
   properties:
     ha_proxy:
       disable_http: false
@@ -58,7 +59,8 @@ jobs:
       apps: cf-network
     router:
       servers:
-        z1: []
+        z1:
+        - 192.168.0.115
         z2: []
   resource_pool: router_z1
   templates:
@@ -71,7 +73,8 @@ jobs:
   name: nats_z1
   networks:
   - name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.101
   properties:
     metron_agent:
       zone: z1
@@ -90,7 +93,7 @@ jobs:
   name: nats_z2
   networks:
   - name: cf2
-    type: dynamic
+    static_ips: []
   properties:
     metron_agent:
       zone: z2
@@ -109,7 +112,8 @@ jobs:
   name: etcd_z1
   networks:
   - name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.102
   persistent_disk: 10024
   properties:
     metron_agent:
@@ -129,7 +133,7 @@ jobs:
   name: etcd_z2
   networks:
   - name: cf2
-    type: dynamic
+    static_ips: []
   persistent_disk: 10024
   properties:
     metron_agent:
@@ -149,6 +153,8 @@ jobs:
   name: stats_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.103
   properties:
     metron_agent:
       zone: z1
@@ -165,7 +171,8 @@ jobs:
   name: nfs_z1
   networks:
   - name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.104
   persistent_disk: 102400
   properties:
     metron_agent:
@@ -183,7 +190,8 @@ jobs:
   name: postgres_z1
   networks:
   - name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.105
   persistent_disk: 4096
   properties:
     metron_agent:
@@ -201,6 +209,8 @@ jobs:
   name: uaa_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.106
   properties:
     metron_agent:
       zone: z1
@@ -233,6 +243,8 @@ jobs:
   name: login_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.107
   properties:
     metron_agent:
       zone: z1
@@ -265,6 +277,8 @@ jobs:
   name: api_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.108
   persistent_disk: 0
   properties:
     metron_agent:
@@ -272,10 +286,12 @@ jobs:
     networks:
       apps: cf-network
     nfs_server:
-      address: 192.166.1.3
+      address: 192.168.0.104
+      network: 192.168.0.0/16
       allow_from_entries:
       - 192.166.0.0/16
       - 192.167.0.0/16
+      - 192.168.0.0/16
       share: null
   resource_pool: large_z1
   templates:
@@ -297,10 +313,12 @@ jobs:
     networks:
       apps: cf2
     nfs_server:
-      address: 192.166.1.3
+      address: 192.168.0.104
+      network: 192.168.0.0/16
       allow_from_entries:
       - 192.166.0.0/16
       - 192.167.0.0/16
+      - 192.168.0.0/16
       share: null
   resource_pool: large_z2
   templates:
@@ -315,6 +333,8 @@ jobs:
   name: clock_global
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.109
   persistent_disk: 0
   properties:
     metron_agent:
@@ -332,6 +352,8 @@ jobs:
   name: api_worker_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.110
   persistent_disk: 0
   properties:
     metron_agent:
@@ -339,10 +361,12 @@ jobs:
     networks:
       apps: cf-network
     nfs_server:
-      address: 192.166.1.3
+      address: 192.168.0.104
+      network: 192.168.0.0/16
       allow_from_entries:
       - 192.166.0.0/16
       - 192.167.0.0/16
+      - 192.168.0.0/16
       share: null
   resource_pool: small_z1
   templates:
@@ -364,10 +388,12 @@ jobs:
     networks:
       apps: cf2
     nfs_server:
-      address: 192.166.1.3
+      address: 192.168.0.104
+      network: 192.168.0.0/16
       allow_from_entries:
       - 192.166.0.0/16
       - 192.167.0.0/16
+      - 192.168.0.0/16
       share: null
   resource_pool: small_z2
   templates:
@@ -382,6 +408,8 @@ jobs:
   name: hm9000_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.111
   properties:
     metron_agent:
       zone: z1
@@ -414,7 +442,8 @@ jobs:
   name: runner_z1
   networks:
   - name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.112
   properties:
     dea_next:
       zone: z1
@@ -436,7 +465,7 @@ jobs:
   name: runner_z2
   networks:
   - name: cf2
-    type: dynamic
+    static_ips: []
   properties:
     dea_next:
       zone: z2
@@ -458,6 +487,8 @@ jobs:
   name: loggregator_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.113
   properties:
     doppler:
       zone: z1
@@ -498,6 +529,8 @@ jobs:
   name: loggregator_trafficcontroller_z1
   networks:
   - name: cf-network
+    static_ips:
+    - 192.168.0.114
   properties:
     metron_agent:
       zone: z1
@@ -534,7 +567,8 @@ jobs:
   name: router_z1
   networks:
   - name: cf-network
-    type: dynamic
+    static_ips:
+    - 192.168.0.115
   properties:
     metron_agent:
       zone: z1
@@ -551,7 +585,7 @@ jobs:
   name: router_z2
   networks:
   - name: cf2
-    type: dynamic
+    static_ips: []
   properties:
     metron_agent:
       zone: z2
@@ -598,24 +632,48 @@ meta:
     version: latest
 name: cf
 networks:
+- cloud_properties:
+    net_id: e3d97f4a-69ca-4232-a8fc-93d122559b88
+    security_groups:
+    - cf
+  name: public
+  type: vip
 - name: cf-network
   subnets:
   - cloud_properties:
-      subnet: cf-network
       net_id: c389522a-a962-44ff-a597-8e638829069f
-    type: dynamic
+      security_groups:
+      - cf
+    dns:
+    - 192.168.0.1
+    gateway: 192.168.0.1
+    name: private
     range: 192.168.0.0/16
+    reserved:
+    - 192.168.0.2 - 192.168.0.40
+    static:
+    - 192.168.0.100 - 192.168.0.200
+  type: manual
 - name: cf2
   subnets:
   - cloud_properties:
-      subnet: subnet-cf2
       net_id: 2a74eab1-2bb0-4a50-ae05-7c7fd4f7aec4
-    type: dynamic
+      security_groups:
+      - cf
+    dns:
+    - 192.167.0.1
+    gateway: 192.167.0.1
+    name: private
     range: 192.167.0.0/16
+    reserved:
+    - 192.167.0.2 - 192.167.0.40
+    static:
+    - 192.167.0.100 - 192.167.0.200
+  type: manual
 properties:
   acceptance_tests: null
   app_domains:
-  - admin.ci
+  - 192.168.0.100.xip.io
   cc:
     allowed_cors_domains: []
     app_events:
@@ -717,7 +775,7 @@ properties:
         enabled: true
         record_sql: obfuscated
     packages:
-      app_package_directory_key: admin.ci-cc-packages
+      app_package_directory_key: 192.168.0.100.xip.io-cc-packages
       cdn: null
       fog_connection: null
       max_package_size: 1073741824
@@ -730,7 +788,7 @@ properties:
     resource_pool:
       cdn: null
       fog_connection: null
-      resource_directory_key: admin.ci-cc-resources
+      resource_directory_key: 192.168.0.100.xip.io-cc-resources
     security_group_definitions:
     - name: public_networks
       rules:
@@ -752,7 +810,7 @@ properties:
       - destination: 0.0.0.0/0
         ports: "53"
         protocol: udp
-    srv_api_uri: https://api.admin.ci
+    srv_api_uri: https://api.192.168.0.100.xip.io
     stacks: null
     staging_upload_password: c0ntrail123
     staging_upload_user: cf-admin
@@ -780,7 +838,7 @@ properties:
         restart_if_consistently_above_mb: null
     user_buildpacks: []
   ccdb:
-    address: 192.166.1.4
+    address: 192.168.0.105
     databases:
     - name: ccdb
       tag: cc
@@ -792,7 +850,7 @@ properties:
       tag: admin
   collector: null
   databases:
-    address: 192.166.1.4
+    address: 192.168.0.105
     databases:
     - citext: true
       name: ccdb
@@ -830,7 +888,7 @@ properties:
     staging_memory_limit_mb: 1024
   description: Cloud Foundry sponsored by Pivotal
   disk_quota_enabled: true
-  domain: admin.ci
+  domain: 192.168.0.100.xip.io
   doppler:
     blacklisted_syslog_ranges: null
     debug: false
@@ -841,15 +899,15 @@ properties:
     enabled: true
   etcd:
     machines:
-    - 192.166.1.8
+    - []
   etcd_metrics_server:
     nats:
       machines:
-      - 192.166.1.2
+      - 192.168.0.101
       password: c0ntrail123
       username: cf-admin
   hm9000:
-    url: https://hm9000.admin.ci
+    url: https://hm9000.192.168.0.100.xip.io
   logger_endpoint:
     port: 4443
   loggregator:
@@ -868,10 +926,10 @@ properties:
     enabled: true
     invitations_enabled: null
     links:
-      home: https://console.admin.ci
+      home: https://console.192.168.0.100.xip.io
       network: null
-      passwd: https://console.admin.ci/password_resets/new
-      signup: https://console.admin.ci/register
+      passwd: https://console.192.168.0.100.xip.io/password_resets/new
+      signup: https://console.192.168.0.100.xip.io/register
       signup-network: null
     messages: null
     notifications:
@@ -894,10 +952,10 @@ properties:
   metron_endpoint:
     shared_secret: c0ntrail123
   nats:
-    address: 192.166.1.2
+    address: 192.168.0.101
     debug: false
     machines:
-    - 192.166.1.2
+    - 192.168.0.101
     monitor_port: 0
     password: c0ntrail123
     port: 4222
@@ -905,10 +963,12 @@ properties:
     trace: false
     user: cf-admin
   nfs_server:
-    address: 192.166.1.3
+    address: 192.168.0.104
+    network: 192.168.0.0/16
     allow_from_entries:
     - 192.166.0.0/16
     - 192.167.0.0/16
+      - 192.168.0.0/16
     share: null
   request_timeout_in_seconds: 900
   router:
@@ -922,7 +982,7 @@ properties:
     skip_cert_verify: false
   support_address: http://support.cloudfoundry.com
   syslog_daemon_config: null
-  system_domain: admin.ci
+  system_domain: 192.168.0.100.xip.io
   system_domain_organization: null
   uaa:
     admin:
@@ -955,7 +1015,7 @@ properties:
         authorities: oauth.login,scim.write,clients.read,notifications.write,critical_notifications.write,emails.write,scim.userids,password.write
         authorized-grant-types: authorization_code,client_credentials,refresh_token
         override: true
-        redirect-uri: https://login.admin.ci
+        redirect-uri: https://login.192.168.0.100.xip.io
         scope: openid,oauth.approvals
         secret: c0ntrail123
       notifications:
@@ -1003,10 +1063,10 @@ properties:
       users:
       - admin|c0ntrail123|scim.write,scim.read,openid,cloud_controller.admin,doppler.firehose
     spring_profiles: null
-    url: https://uaa.admin.ci
+    url: https://uaa.192.168.0.100.xip.io
     user: null
   uaadb:
-    address: 192.166.1.4
+    address: 192.168.0.105
     databases:
     - name: uaadb
       tag: uaa
