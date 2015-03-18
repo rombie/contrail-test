@@ -22,35 +22,54 @@ jobs:
       ssl_ciphers: null
       ssl_pem: |
         -----BEGIN CERTIFICATE-----
-        MIICbzCCAdgCCQDM7HtN+Ui7jDANBgkqhkiG9w0BAQsFADB8MQswCQYDVQQGEwJJ
-        VDEPMA0GA1UECAwGUGFkb3ZhMQ8wDQYDVQQHDAZQYWRvdmExDTALBgNVBAoMBElO
-        Rk4xDDAKBgNVBAsMA09DUDELMAkGA1UEAwwCKi4xITAfBgkqhkiG9w0BCQEWEmFs
-        dmlzZTcyQGdtYWlsLmNvbTAeFw0xNTAyMDMwODU2MTdaFw0xNTAzMDUwODU2MTda
-        MHwxCzAJBgNVBAYTAklUMQ8wDQYDVQQIDAZQYWRvdmExDzANBgNVBAcMBlBhZG92
-        YTENMAsGA1UECgwESU5GTjEMMAoGA1UECwwDT0NQMQswCQYDVQQDDAIqLjEhMB8G
-        CSqGSIb3DQEJARYSYWx2aXNlNzJAZ21haWwuY29tMIGfMA0GCSqGSIb3DQEBAQUA
-        A4GNADCBiQKBgQDyr3/vesASY4aNvvpmlIFQ6EYl3LOElMO3TQQnIbSQusrV+EZK
-        vl9BA0ofAuyUZZI8Z5TgQXuDymZdcaFfSz2gDrQR6gN0MjbRIwyYE1FFzRc/kJbf
-        qh7IFexVucWSTCOofMM7afO7wKwxJ2NDGVIKjzbrs7J5tfKOIdbZT+2pRwIDAQAB
-        MA0GCSqGSIb3DQEBCwUAA4GBAEaPdDQVtVEA0jRBhqbR1JrX9NOckDKHTBSfTZ34
-        evVLFAnnRCiyL2NpLIwUg5CPXu13B2HwQp+BahKfZKw+bN4MP1trzViBM11tzRSE
-        F7h0g+vmPkWYUQ2aP9BG+NLX6PYQ9/h4RKHUg3X41y4/OocTKsBVFjyfFf8LSTvH
-        gllA
+        MIIDyDCCArACCQDh66+ypnTFLzANBgkqhkiG9w0BAQsFADCBpTELMAkGA1UEBhMC
+        VVMxCzAJBgNVBAgMAkNBMRIwEAYDVQQHDAlTdW5ueXZhbGUxHTAbBgNVBAoMFEp1
+        bmlwZXIgTmV0d29ya3MgSW5jMREwDwYDVQQLDAhDb250cmFpbDEfMB0GA1UEAwwW
+        Ki4xOTIuMTY4LjAuMTAwLnhpcC5pbzEiMCAGCSqGSIb3DQEJARYTYW5hbnRoYUBq
+        dW5pcGVyLm5ldDAeFw0xNTAzMTcyMDE3MzFaFw0xNjAzMTYyMDE3MzFaMIGlMQsw
+        CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEdMBsG
+        A1UECgwUSnVuaXBlciBOZXR3b3JrcyBJbmMxETAPBgNVBAsMCENvbnRyYWlsMR8w
+        HQYDVQQDDBYqLjE5Mi4xNjguMC4xMDAueGlwLmlvMSIwIAYJKoZIhvcNAQkBFhNh
+        bmFudGhhQGp1bmlwZXIubmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+        AQEAoMCEDwsyyhVO5FdCk3Bf0lxboV+XsxA3A+Pp4htUxUD7Ba9LwSsirZbj6uc8
+        8nAJpxUXwNztrQt53WN7qwjq8eeD2HayoYmLHQgWuwznhLT3OI/dPC3EfvhNCxOq
+        kRjg76pXEm3b9TT6Jm8uiv6Ez9sty2W+FMcgj4ZtYBA0zmw+yiWs+5oo8EYBOXbx
+        QmRRE5QpG8zT5PjOpyAAc+ZhlPstSba07lgUu6mLmydVsp/QWNvg6SaG0QUPZz1v
+        5HqnloFNPlH7LfseInX0BSlIVm4G2LRu4tqqjuBLQ+WN/7uOkWvON2AVMziOTpWb
+        /4j9aFVisJdaprN/w4D02X/0iQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBbI2mI
+        4mcyXNtrpLUuyW/xl4ibCocFGRR6ci/OvKzN03Vvb9XfGkkAS4yaT9DtMJNxrvhn
+        Aq0Bwab1eehznKPZ7wlvtmxRgauWjG7xPRODDbmI4XDmV5Z3H+FOWXkW2ULkJyxn
+        7UN75PMfXxTVSwdWb9THebguLvE0xI4QxJQYuNiF26llQCbmckd+K67+PIMaXVsB
+        eu8patMxISY5s6bnV7N3tX+UTVbVfcco5bb7qPw/XIwHf87SqXxoN8YbtSy0C2Ve
+        FTilSo47TjgmgF3057+OaYzb0W3Gi+7xcN95KRl3KPfu9C4sR/rblBaOsJ855yPG
+        UZxThNgWL7SXYj2a
         -----END CERTIFICATE-----
         -----BEGIN RSA PRIVATE KEY-----
-        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
+        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
         -----END RSA PRIVATE KEY-----
 
     metron_agent:
@@ -810,7 +829,7 @@ properties:
       - destination: 0.0.0.0/0
         ports: "53"
         protocol: udp
-    srv_api_uri: https://api.192.168.0.100.xip.io
+    srv_api_uri: http://api.192.168.0.100.xip.io
     stacks: null
     staging_upload_password: c0ntrail123
     staging_upload_user: cf-admin
@@ -872,7 +891,7 @@ properties:
     allow_networks: null
     default_health_check_timeout: 60
     deny_networks: null
-    directory_server_protocol: https
+    directory_server_protocol: http
     disk_mb: 2048
     disk_overcommit_factor: 2
     evacuation_bail_out_time_in_seconds: 600
@@ -907,7 +926,7 @@ properties:
       password: c0ntrail123
       username: cf-admin
   hm9000:
-    url: https://hm9000.192.168.0.100.xip.io
+    url: http://hm9000.192.168.0.100.xip.io
   logger_endpoint:
     port: 4443
   loggregator:
@@ -926,15 +945,15 @@ properties:
     enabled: true
     invitations_enabled: null
     links:
-      home: https://console.192.168.0.100.xip.io
+      home: http://console.192.168.0.100.xip.io
       network: null
-      passwd: https://console.192.168.0.100.xip.io/password_resets/new
-      signup: https://console.192.168.0.100.xip.io/register
+      passwd: http://console.192.168.0.100.xip.io/password_resets/new
+      signup: http://console.192.168.0.100.xip.io/register
       signup-network: null
     messages: null
     notifications:
       url: null
-    protocol: https
+    protocol: http
     restricted_ips_regex: 10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}
     saml: null
     self_service_links_enabled: null
@@ -1015,7 +1034,7 @@ properties:
         authorities: oauth.login,scim.write,clients.read,notifications.write,critical_notifications.write,emails.write,scim.userids,password.write
         authorized-grant-types: authorization_code,client_credentials,refresh_token
         override: true
-        redirect-uri: https://login.192.168.0.100.xip.io
+        redirect-uri: http://login.192.168.0.100.xip.io
         scope: openid,oauth.approvals
         secret: c0ntrail123
       notifications:
@@ -1055,7 +1074,7 @@ properties:
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDntZt6JBJzneqpvKm41EnytOUlsqZw9WYGGhWB+C2tWZFOHPiZydx1ll26yK3Lufi+o09I5hYFnPD87+WzxMLaOQUjn6INyyus8ITXSwoQVfipiPsSYQ1jYyD11ScAlMxRjaq1rjdeLvG/cdubQhRWd4pMx5ZOUjMa5e5QDHVEUjt6SqneBArDKCZ2iT5TP6M6p4z7tF7vVIBbMd3CEE7YvmNk9OBZUMieOCFanTTUVvqe4iV3GXOP/sMh1UudnCzD1J3HfuWvqd3J7F53XPA9KLUVHI5G71IFEvg3GzGVxTeZ0+QB45fx7jvon9sjgCvzZuuuuFY2GyZMAJF3UKQl root@anantha-cf-manager
     ldap: null
     login: null
-    no_ssl: false
+    no_ssl: true
     restricted_ips_regex: 10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}
     scim:
       external_groups: null
@@ -1063,7 +1082,7 @@ properties:
       users:
       - admin|c0ntrail123|scim.write,scim.read,openid,cloud_controller.admin,doppler.firehose
     spring_profiles: null
-    url: https://uaa.192.168.0.100.xip.io
+    url: http://uaa.192.168.0.100.xip.io
     user: null
   uaadb:
     address: 192.168.0.105
