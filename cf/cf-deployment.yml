@@ -998,7 +998,7 @@ properties:
       user: cf-admin
   smoke_tests: null
   ssl:
-    skip_cert_verify: false
+    skip_cert_verify: true
   support_address: http://support.cloudfoundry.com
   syslog_daemon_config: null
   system_domain: 192.168.0.100.xip.io
@@ -1074,7 +1074,7 @@ properties:
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDntZt6JBJzneqpvKm41EnytOUlsqZw9WYGGhWB+C2tWZFOHPiZydx1ll26yK3Lufi+o09I5hYFnPD87+WzxMLaOQUjn6INyyus8ITXSwoQVfipiPsSYQ1jYyD11ScAlMxRjaq1rjdeLvG/cdubQhRWd4pMx5ZOUjMa5e5QDHVEUjt6SqneBArDKCZ2iT5TP6M6p4z7tF7vVIBbMd3CEE7YvmNk9OBZUMieOCFanTTUVvqe4iV3GXOP/sMh1UudnCzD1J3HfuWvqd3J7F53XPA9KLUVHI5G71IFEvg3GzGVxTeZ0+QB45fx7jvon9sjgCvzZuuuuFY2GyZMAJF3UKQl root@anantha-cf-manager
     ldap: null
     login: null
-    no_ssl: true
+    no_ssl: http
     restricted_ips_regex: 10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}
     scim:
       external_groups: null
