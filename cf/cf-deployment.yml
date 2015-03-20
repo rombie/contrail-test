@@ -641,7 +641,7 @@ jobs:
 meta:
   default_env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   environment: null
   releases:
   - name: cf
@@ -1017,6 +1017,7 @@ properties:
     catalina_opts: -Xmx768m -XX:MaxPermSize=256m
     cc:
       client_secret: c0ntrail123
+      token_secret: c0ntrail123
     clients:
       app-direct:
         secret: c0ntrail123
@@ -1041,37 +1042,6 @@ properties:
         authorities: cloud_controller.admin,scim.read
         authorized-grant-types: client_credentials
         secret: c0ntrail123
-    jwt:
-      signing_key: |+
-        -----BEGIN RSA PRIVATE KEY-----
-        MIIEpQIBAAKCAQEA57WbeiQSc53qqbypuNRJ8rTlJbKmcPVmBhoVgfgtrVmRThz4
-        mcncdZZdusity7n4vqNPSOYWBZzw/O/ls8TC2jkFI5+iDcsrrPCE10sKEFX4qYj7
-        EmENY2Mg9dUnAJTMUY2qta43Xi7xv3Hbm0IUVneKTMeWTlIzGuXuUAx1RFI7ekqp
-        3gQKwygmdok+Uz+jOqeM+7Re71SAWzHdwhBO2L5jZPTgWVDInjghWp001Fb6nuIl
-        dxlzj/7DIdVLnZwsw9Sdx37lr6ndyexed1zwPSi1FRyORu9SBRL4NxsxlcU3mdPk
-        AeOX8e476J/bI4Ar82brrrhWNhsmTACRd1CkJQIDAQABAoIBABDKUyrlpESmg9Oq
-        7S2MjJM+0oAJ0w/KaIs2pqpVXpH6NJJRfR4/x27p537afeWOY10FHoCs05myhq/9
-        fkqpjmkbyqiLL8YKG+8bOrUTJfaLFErMt0zcpYi3LTNDL+FV5vxd5KnnpvF3O2Nh
-        D8XPYwPlA6uOpvCj+joPwVYhoPnDTGT4Vx7NYvsslpaRrnkjPdL8A4RaAlSHYl5r
-        aW3xHL8PePFlvPm9hTulck3Hv+eyPl5bgHVo0lD+bP3kHMbFGDjC0nxc5npYv2mj
-        4ipQ/09SxmTfDZLHYbZfbhA6EN8I5nKSl/VxE/WCxgfaPWA/3wYYyWk6VcvcAyGV
-        IyHTSv0CgYEA+7qckksIfoT9fZKwkh74CCk+yAML3zuk2IfBL7E8k5kL35LvUEG+
-        nx1TOVjcwqR7R09rR/k12w3io+AT+YF1oeXJtomCE4Z0cx7afnJH7UrQzuvPPgw4
-        HCJA1by7SdpZ5C8V0O3GVuKRw0xalMiEIEa+5YjKilR3rTXU/eOGkVcCgYEA66QK
-        X9rCGHnq9J6dzhEl+GvRiSt2mVUK3sRN6y0ZO7KdAZcem+z1WctbEjP9ROG9gnBo
-        baQzf9RG0QWk7h7aUdet5uiiKNQh+DRoFNZIZ3bXBlzCGpoT9NWo+xdXmS99yiWG
-        XGOR4qOCchui1+3rUepxY8hA+OHrHVw70U1B3OMCgYEAg5EENl3rIZ1Gk/QwPx7a
-        igFso8Mb2F/nB5jkepXK0GXkU8ULOUozZBxCnC16rGylVh8HNkXlRQlb1ETQi86C
-        +cwNAk+aYbQbdvPAROhb+YTp38xVs9tVFDc+5bdPuAjchKurXlh4Gn8uqgFlMnAe
-        xnPTYEp/eY8uQaRqHwxlD98CgYEA1T9t+BMz5gynWdsVuoAAWdHRHY7M1LSGktUa
-        IsN8e28H8YF+POPzoeCLuWx9PtH/u8TYbKjVxlAoCk9OVARt1PUXtsk+vy5C06kx
-        q/HEMoX00BgvvP1FJCQbuagFKWc2MjNFZeTiCDWq/nMOKtVwSYCePwvh6JojOT3Y
-        EHEXMrsCgYEAwHN8StQ4g253Xh98pFVXqUVMq1H56oJWiqV06Eh2LUHLYKrNaJZx
-        l5oU4rZl4mzsevVFr2Q7u5qFZijBOIM0nrmAXvGiXYQ1EltCbDdtvAeRRDy9Rt+G
-        9maBZTqChs5GIBiN2BKv82fTZHu1BKDYoYKyV2wptsx6Xx5t2+oK1eM=
-        -----END RSA PRIVATE KEY-----
-      verification_key: |+
-        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDntZt6JBJzneqpvKm41EnytOUlsqZw9WYGGhWB+C2tWZFOHPiZydx1ll26yK3Lufi+o09I5hYFnPD87+WzxMLaOQUjn6INyyus8ITXSwoQVfipiPsSYQ1jYyD11ScAlMxRjaq1rjdeLvG/cdubQhRWd4pMx5ZOUjMa5e5QDHVEUjt6SqneBArDKCZ2iT5TP6M6p4z7tF7vVIBbMd3CEE7YvmNk9OBZUMieOCFanTTUVvqe4iV3GXOP/sMh1UudnCzD1J3HfuWvqd3J7F53XPA9KLUVHI5G71IFEvg3GzGVxTeZ0+QB45fx7jvon9sjgCvzZuuuuFY2GyZMAJF3UKQl root@anantha-cf-manager
     ldap: null
     login: null
     no_ssl: http
@@ -1103,7 +1073,7 @@ resource_pools:
     instance_type: m1.small
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: small_z1
   network: cf-network
   size: 3
@@ -1114,7 +1084,7 @@ resource_pools:
     instance_type: m1.small
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: small_z2
   network: cf2
   size: 0
@@ -1125,7 +1095,7 @@ resource_pools:
     instance_type: m1.medium
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: medium_z1
   network: cf-network
   size: 9
@@ -1136,7 +1106,7 @@ resource_pools:
     instance_type: m1.medium
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: medium_z2
   network: cf2
   size: 0
@@ -1147,7 +1117,7 @@ resource_pools:
     instance_type: m1.large
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: large_z1
   network: cf-network
   size: 1
@@ -1158,7 +1128,7 @@ resource_pools:
     instance_type: m1.large
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: large_z2
   network: cf2
   size: 0
@@ -1169,7 +1139,7 @@ resource_pools:
     instance_type: m1.large
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: runner_z1
   network: cf-network
   size: 1
@@ -1180,7 +1150,7 @@ resource_pools:
     instance_type: m1.large
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: runner_z2
   network: cf2
   size: 0
@@ -1191,7 +1161,7 @@ resource_pools:
     instance_type: m1.medium
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: router_z1
   network: cf-network
   size: 2
@@ -1202,7 +1172,7 @@ resource_pools:
     instance_type: m1.medium
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: router_z2
   network: cf2
   size: 0
@@ -1213,7 +1183,7 @@ resource_pools:
     instance_type: m1.small
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: small_errand
   network: cf-network
   stemcell:
@@ -1223,7 +1193,7 @@ resource_pools:
     instance_type: m1.large
   env:
     bosh:
-      password: $6$4gDD3aV0rdqlrKC$2axHCxGKIObs6tAmMTqYCspcdvQXh3JJcvWOY2WGb4SrdXtnCyNaWlrf3WEqvYR2MYizEGp3kMmbpwBC6jsHt0
+      password: c0ntrail123
   name: xlarge_errand
   network: cf-network
   stemcell:
