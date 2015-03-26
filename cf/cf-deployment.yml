@@ -632,6 +632,8 @@ jobs:
   networks:
   - name: cf-network
   properties:
+    metron_agent:
+      zone: z1
     networks:
       apps: cf-network
   resource_pool: small_errand
@@ -646,6 +648,8 @@ jobs:
     - 192.168.0.120
   persistent_disk: 100000
   properties:
+    metron_agent:
+      zone: z1
     admin_password: c0ntrail123
     cluster_ips:
     - 192.168.0.120
@@ -663,6 +667,8 @@ jobs:
     - 192.168.0.121
     - 192.168.0.122
   properties:
+    metron_agent:
+      zone: z1
     cluster_ips:
     - 192.168.0.120
     external_host: p-mysql.192.168.0.100.xip.io
@@ -671,11 +677,11 @@ jobs:
       - 192.168.0.101
       password: c0ntrail123
       port: 4222
-      user: cf-admin
+      user: admin
     network_name: cf-network
     proxy:
       api_password: c0ntrail123
-      api_username: cf-admin
+      api_username: admin
     syslog_aggregator: null
   release: cf-mysql
   resource_pool: small_z1
@@ -685,8 +691,10 @@ jobs:
   networks:
   - name: cf-network
   properties:
+    metron_agent:
+      zone: z1
     auth_password: c0ntrail123
-    auth_username: cf-admin
+    auth_username: admin
     cc_api_uri: https://api.192.168.0.100.xip.io
     cookie_secret: c0ntrail123
     external_host: p-mysql.192.168.0.100.xip.io
@@ -700,7 +708,7 @@ jobs:
       - 192.168.0.101
       password: c0ntrail123
       port: 4222
-      user: cf-admin
+      user: admin
     network_name: cf-network
     networks:
       broker_network: cf-network
@@ -765,6 +773,8 @@ jobs:
   networks:
   - name: cf-network
   properties:
+    metron_agent:
+      zone: z1
     broker:
       host: p-mysql.192.168.0.100.xip.io
       name: p-mysql
@@ -783,6 +793,8 @@ jobs:
   networks:
   - name: cf-network
   properties:
+    metron_agent:
+      zone: z1
     broker:
       host: p-mysql.192.168.0.100.xip.io
       name: p-mysql
@@ -801,6 +813,8 @@ jobs:
   networks:
   - name: cf-network
   properties:
+    metron_agent:
+      zone: z1
     broker:
       host: p-mysql.192.168.0.100.xip.io
     cf:
@@ -811,7 +825,7 @@ jobs:
       skip_ssl_validation: true
     proxy:
       api_password: c0ntrail123
-      api_username: cf-admin
+      api_username: admin
       external_host: p-mysql.192.168.0.100.xip.io
     service:
       max_user_connections_default: 40
@@ -838,7 +852,7 @@ meta:
       - 192.168.0.101
     password: c0ntrail123
     port: 4222
-    user: cf-admin
+    user: admin
   releases:
   - name: cf
     version: latest
@@ -1028,7 +1042,7 @@ properties:
     srv_api_uri: http://api.192.168.0.100.xip.io
     stacks: null
     staging_upload_password: c0ntrail123
-    staging_upload_user: cf-admin
+    staging_upload_user: admin
     system_buildpacks:
     - name: java_buildpack
       package: buildpack_java
@@ -1120,7 +1134,7 @@ properties:
       machines:
       - 192.168.0.101
       password: c0ntrail123
-      username: cf-admin
+      username: admin
   hm9000:
     url: http://hm9000.192.168.0.100.xip.io
   logger_endpoint:
@@ -1176,7 +1190,7 @@ properties:
     port: 4222
     prof_port: 0
     trace: false
-    user: cf-admin
+    user: admin
   nfs_server:
     address: 192.168.0.104
     network: 192.168.0.0/16
@@ -1191,7 +1205,7 @@ properties:
     secure_cookies: true
     status:
       password: c0ntrail123
-      user: cf-admin
+      user: admin
   smoke_tests: null
   ssl:
     skip_cert_verify: true
@@ -1209,7 +1223,7 @@ properties:
         lockoutPeriodSeconds: null
     batch:
       password: c0ntrail123
-      username: cf-admin
+      username: admin
     catalina_opts: -Xmx768m -XX:MaxPermSize=256m
     cc:
       client_secret: c0ntrail123
