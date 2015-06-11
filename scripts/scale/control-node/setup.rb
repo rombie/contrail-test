@@ -56,7 +56,7 @@ apt-get -y autoremove
 EOF
         Process.fork { rsh(node[:ip], cmds.split(/\n/)) }
     }
-    Process.wait
+    Process.waitall
 end
 
 def setup_topo
@@ -127,7 +127,7 @@ def copy_and_install_contrail_image (image = "/github-build/mainline/2616/ubuntu
             rsh(node[:ip], "/opt/contrail/contrail_packages/setup.sh")
         }
     }
-    Process.wait
+    Process.waitall
 end
 
 def install_contrail
