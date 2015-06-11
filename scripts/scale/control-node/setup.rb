@@ -76,6 +76,7 @@ host_build = 'root@#{@nodes["config1"][:ip]}'
 env.roledefs = {
     'all': [host1, host2, host3],
     'cfgm': [host1],
+    'openstack': [host1],
     'control': [host2, host3],
     'collector': [host1],
     'webui': [host1],
@@ -134,7 +135,7 @@ def install_contrail
 end
 
 def build_bgp_stress_test
-    sh("mkdir -p sandbox"
+    sh("mkdir -p sandbox")
     sh("cd sandbox && repo init -u git@github.com:Juniper/contrail-vnc-private -m mainline/ubuntu-14-04/manifest-juno.xml")
     sh("cd sandbox && repo sync && python third_party/fetch_packages.py&& python distro/third_party/fetch_packages.py && BUILD_ONLY=1 scons -j32 src/bgp:bgp_stress_test && BUILD_ONLY=1 tools/packaging/build/packager.py --fail-on-error")
 end
