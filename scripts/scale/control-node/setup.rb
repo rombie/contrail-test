@@ -12,14 +12,12 @@ end
 
 def rsh(ip, cmds, ignore = false)
     cmds.each { |cmd|
-        sh("sshpass -p c0ntrail123 ssh -q root@#{ip} #{cmd}", ignore)
+        sh(%{sshpass -p c0ntrail123 ssh -q root@#{ip} "#{cmd}"}, ignore)
     }
 end
 
 def rcp(ip, src, dst = ".", ignore = false)
-    cmds.each { |cmd|
-        sh("sshpass -p c0ntrail123 scp -q #{src} root@#{ip}:#{dst}", ignore)
-    }
+    sh("sshpass -p c0ntrail123 scp -q #{src} root@#{ip}:#{dst}", ignore)
 end
 
 def create_nodes
@@ -48,7 +46,7 @@ EOF
 apt-get -y remove python-iso8601
 apt-get -y autoremove
 EOF
-        rsh(ip, cmds.split(/\n/))
+#       rsh(ip, cmds.split(/\n/))
     }
     pp @nodes
 end
@@ -57,16 +55,16 @@ def setup_topo
     topo = <<EOF
 from fabric.api import env
 
-host1 = 'root@#{@nodes["config1"]}'
-host2 = 'root@#{@nodes["control1"]}'
-host3 = 'root@#{@nodes["control2"]}'
+host1 = 'root@#{@nodes["config1"][:ip]}'
+host2 = 'root@#{@nodes["control1"][:ip]}'
+host3 = 'root@#{@nodes["control2"][:ip]}'
 
 ext_routers = []
 router_asn = 64512
 public_vn_rtgt = 10000
 public_vn_subnet = '22.2.1.1/24'
 
-host_build = 'root@#{@nodes["config1"]}'
+host_build = 'root@#{@nodes["config1"][:ip]}'
 
 env.roledefs = {
     'all': [host1, host2, host3],
@@ -76,11 +74,11 @@ env.roledefs = {
     'webui': [host1],
     'database': [host1],
     'build': [host_build],
-    #'compute': [],
+    'compute': [host3],
 }
 
 env.hostnames = {
-    'all': ['#{@nodes["config1"]}', '#{@nodes["control1"]}', '#{@nodes["control2"]}']
+    'all': ['#{@nodes["config1"][:host]}', '#{@nodes["control1"][:host]}', '#{@nodes["control2"][:host]}']
 }
 
 env.passwords = {
@@ -106,22 +104,36 @@ minimum_diskGB = 32
 
 EOF
     File.open("/tmp/testbed.py", "w") { |fp| fp.puts topo }
+    rcp(@nodes["config1"][:ip], "/tmp/testbed.py",
+               "/opt/contrail/utils/fabfile/testbeds/testbed.py")
 end
 
 def copy_and_install_contrail_image (image = "/github-build/mainline/2616/ubuntu-12-04/icehouse/contrail-install-packages_3.0-2616~icehouse_all.deb")
-    @nods.each { |node|
-        rcp(node[:ip], "#{image} /tmp/testbed.py")
-        rsh(node[:ip], "dpkg -i #{File.basename image}")
-        rsh(node[:ip], "/opt/contrail/utils/setup.sh")
-        rsh(node[:ip], "mv testbed.py /opt/contrail/utils/fabfile/testbeds/")
+    @nodes.each { |type, node|
+        next if type =~ /test/
+        Process.fork {
+            rcp(node[:ip], image)
+            rsh(node[:ip], "dpkg -i #{File.basename image}")
+            rsh(node[:ip], "/opt/contrail/contrail_packages/setup.sh")
+        }
     }
+    Process.wait
+end
+
+def install_contrail
+    rsh(@nodes["config1"][:ip],
+        "cd /opt/contrail/utils && fab install_contrail setup_all 2>&1 > /root/fab_install.log")
 end
 
 def main
     # create_nodes
-    # fix_nodes    
+    fix_nodes
+#   copy_and_install_contrail_image
     setup_topo
-    copy_and_install_contrail_image
+    install_contrail
 end
+
+# repo init -u git@github.com:Juniper/contrail-vnc-private -m mainline/ubuntu-14-04/manifest-juno.xml
+# BUILD_ONLY=1 tools/packaging/build/packager.py --fail-on-error
 
 main
