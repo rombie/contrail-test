@@ -40,15 +40,18 @@ end
 
 def load_nodes_from_cluster
     find_nodes = <<EOF
-sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list --fields name | \grep bgp-scale | \grep -v ID | awk '{print $4}'
+sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list --fields name,networks | \grep bgp-scale | awk '{print $4 $6}'
 EOF
 
     @nodes = { }
         sh(find_nodes).split(/\n/).each { |node|
-        next if node !~ /bgp-scale-node-(.*?)-(\d+)-(\d+)-(\d+)-(\d+)$/
+        next if node !~ /bgp-scale-node-(.*?)-(\d+)-(\d+)-(\d+)-(\d+)internet=(\d+)\.(\d+)\.(\d+)\.(\d+)$/
         type = $1
-        ip = "#{$2}.#{$3}.#{$4}.#{$5}"
-        @nodes[type] = { :host => node, :ip => ip }
+        public_ip = "#{$2}.#{$3}.#{$4}.#{$5}"
+        private_ip = "#{$6}.#{$7}.#{$8}.#{$9}"
+        @nodes[type] = {
+            :host => node, :private_ip => private_ip, :public_ip => public_ip
+        }
     }
     pp @nodes
 end
@@ -59,7 +62,7 @@ def fix_nodes
 apt-get -y remove python-iso8601
 apt-get -y autoremove
 EOF
-        Process.fork { rsh(node[:ip], cmds.split(/\n/)) }
+        Process.fork { rsh(node[:public_ip], cmds.split(/\n/)) }
     }
     Process.waitall
 end
@@ -68,16 +71,16 @@ def setup_topo
     topo = <<EOF
 from fabric.api import env
 
-host1 = 'root@#{@nodes["config1"][:ip]}'
-host2 = 'root@#{@nodes["control1"][:ip]}'
-host3 = 'root@#{@nodes["control2"][:ip]}'
+host1 = 'root@#{@nodes["config1"][:private_ip]}'
+host2 = 'root@#{@nodes["control1"][:private_ip]}'
+host3 = 'root@#{@nodes["control2"][:private_ip]}'
 
 ext_routers = []
 router_asn = 64512
 public_vn_rtgt = 10000
 public_vn_subnet = '22.2.1.1/24'
 
-host_build = 'root@#{@nodes["config1"][:ip]}'
+host_build = 'root@#{@nodes["config1"][:private_ip]}'
 
 env.roledefs = {
     'all': [host1, host2, host3],
@@ -119,7 +122,7 @@ do_parallel = True
 
 EOF
     File.open("/tmp/testbed.py", "w") { |fp| fp.puts topo }
-    rcp(@nodes["config1"][:ip], "/tmp/testbed.py",
+    rcp(@nodes["config1"][:public_ip], "/tmp/testbed.py",
                "/opt/contrail/utils/fabfile/testbeds/testbed.py")
 end
 
@@ -127,16 +130,16 @@ def copy_and_install_contrail_image (image = "/github-build/mainline/2616/ubuntu
     @nodes.each { |type, node|
         next if type =~ /test/
         Process.fork {
-            rcp(node[:ip], image)
-            rsh(node[:ip], "dpkg -i #{File.basename image}")
-            rsh(node[:ip], "/opt/contrail/contrail_packages/setup.sh")
+            rcp(node[:public_ip], image)
+            rsh(node[:public_ip], "dpkg -i #{File.basename image}")
+            rsh(node[:public_ip], "/opt/contrail/contrail_packages/setup.sh")
         }
     }
     Process.waitall
 end
 
 def install_contrail
-    rsh(@nodes["config1"][:ip],
+    rsh(@nodes["config1"][:public_ip],
         "cd /opt/contrail/utils && fab install_contrail setup_all 2>&1 > /root/fab_install.log")
 end
 
