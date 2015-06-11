@@ -54,8 +54,9 @@ def fix_nodes
 apt-get -y remove python-iso8601
 apt-get -y autoremove
 EOF
-        rsh(node[:ip], cmds.split(/\n/))
+        Process.fork { rsh(node[:ip], cmds.split(/\n/)) }
     }
+    Process.wait
 end
 
 def setup_topo
@@ -141,10 +142,10 @@ def build_contrail_software
 end
 
 def main
-#   create_nodes_in_cluster
+    # create_nodes_in_cluster
     load_nodes_from_cluster
-#   fix_nodes
-#   copy_and_install_contrail_image
+    fix_nodes
+    copy_and_install_contrail_image
     setup_topo
     install_contrail
 end
