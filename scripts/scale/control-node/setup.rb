@@ -30,7 +30,8 @@ launch_vms.rb -n anantha-bgp-scale-node-control2 1
 launch_vms.rb -n anantha-bgp-scale-node-test-server1 1
 launch_vms.rb -n anantha-bgp-scale-node-test-server2 1
 EOF
-    rsh(cluster_ip, cmds.split(/\n/))
+    cmds.split(/\n/).each { |cmd| Process.fork { rsh(cluster_ip, [cmd]) } }
+    Process.waitall
 end
 
 def load_nodes_from_cluster
