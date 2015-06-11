@@ -2,6 +2,8 @@
 
 require 'pp'
 
+@cluster = "10.84.26.23"
+
 def sh(cmd, ignore = false)
     puts cmd
     output = `#{cmd}`
@@ -20,7 +22,7 @@ def rcp(ip, src, dst = ".", ignore = false)
     sh("sshpass -p c0ntrail123 scp -q #{src} root@#{ip}:#{dst}", ignore)
 end
 
-def create_nodes
+def create_nodes_in_cluster(cluster_ip = @cluster)
     cmds = <<EOF
 launch_vms.rb -n anantha-bgp-scale-node-config1 1
 launch_vms.rb -n anantha-bgp-scale-node-control1 1
@@ -28,10 +30,10 @@ launch_vms.rb -n anantha-bgp-scale-node-control2 1
 launch_vms.rb -n anantha-bgp-scale-node-test-server1 1
 launch_vms.rb -n anantha-bgp-scale-node-test-server2 1
 EOF
-    rsh("10.84.26.23", cmds.split(/\n/))
+    rsh(cluster_ip, cmds.split(/\n/))
 end
 
-def fix_nodes
+def load_nodes_from_cluster
     find_nodes = <<EOF
 sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list --fields name | \grep bgp-scale | \grep -v ID | awk '{print $4}'
 EOF
@@ -42,13 +44,18 @@ EOF
         type = $1
         ip = "#{$2}.#{$3}.#{$4}.#{$5}"
         @nodes[type] = { :host => node, :ip => ip }
+    }
+    pp @nodes
+end
+
+def fix_nodes
+    @nodes.each { |type, node|
         cmds = <<EOF
 apt-get -y remove python-iso8601
 apt-get -y autoremove
 EOF
-#       rsh(ip, cmds.split(/\n/))
+        rsh(node[:ip], cmds.split(/\n/))
     }
-    pp @nodes
 end
 
 def setup_topo
@@ -101,6 +108,7 @@ env.webui_config = True
 env.webui = 'firefox'
 env.devstack = False
 minimum_diskGB = 32
+do_parallel = True
 
 EOF
     File.open("/tmp/testbed.py", "w") { |fp| fp.puts topo }
@@ -125,15 +133,19 @@ def install_contrail
         "cd /opt/contrail/utils && fab install_contrail setup_all 2>&1 > /root/fab_install.log")
 end
 
+def build_bgp_stress_test
+    sh("mkdir -p sandbox"
+    sh("cd sandbox && repo init -u git@github.com:Juniper/contrail-vnc-private -m mainline/ubuntu-14-04/manifest-juno.xml")
+    sh("cd sandbox && repo sync && python third_party/fetch_packages.py&& python distro/third_party/fetch_packages.py && BUILD_ONLY=1 scons -j32 src/bgp:bgp_stress_test && BUILD_ONLY=1 tools/packaging/build/packager.py --fail-on-error")
+end
+
 def main
-    # create_nodes
-    fix_nodes
+#   create_nodes_in_cluster
+    load_nodes_from_cluster
+#   fix_nodes
 #   copy_and_install_contrail_image
     setup_topo
     install_contrail
 end
-
-# repo init -u git@github.com:Juniper/contrail-vnc-private -m mainline/ubuntu-14-04/manifest-juno.xml
-# BUILD_ONLY=1 tools/packaging/build/packager.py --fail-on-error
 
 main
