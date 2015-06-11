@@ -3,6 +3,7 @@
 require 'pp'
 
 @cluster = "10.84.26.23"
+@user = ENV["USER"]
 
 def sh (cmd, ignore = false)
     puts cmd
@@ -23,12 +24,15 @@ def rcp (ip, src, dst = ".", ignore = false)
 end
 
 def create_nodes_in_cluster (cluster_ip = @cluster)
+    rsh(cluster_ip,
+        [%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}]
+    )
     cmds = <<EOF
-launch_vms.rb -n anantha-bgp-scale-node-config1 1
-launch_vms.rb -n anantha-bgp-scale-node-control1 1
-launch_vms.rb -n anantha-bgp-scale-node-control2 1
-launch_vms.rb -n anantha-bgp-scale-node-test-server1 1
-launch_vms.rb -n anantha-bgp-scale-node-test-server2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-config1 1
+launch_vms.rb -n #{@user}-bgp-scale-node-control1 1
+launch_vms.rb -n #{@user}-bgp-scale-node-control2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-test-server1 1
+launch_vms.rb -n #{@user}-bgp-scale-node-test-server2 1
 EOF
     cmds.split(/\n/).each { |cmd| Process.fork { rsh(cluster_ip, [cmd]) } }
     Process.waitall
