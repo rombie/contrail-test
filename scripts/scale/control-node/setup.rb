@@ -4,7 +4,7 @@ require 'pp'
 
 @cluster = "10.84.26.23"
 
-def sh(cmd, ignore = false)
+def sh (cmd, ignore = false)
     puts cmd
     output = `#{cmd}`
     exit -1 if !ignore and $?.to_i != 0
@@ -12,17 +12,17 @@ def sh(cmd, ignore = false)
     return output
 end
 
-def rsh(ip, cmds, ignore = false)
+def rsh (ip, cmds, ignore = false)
     cmds.each { |cmd|
         sh(%{sshpass -p c0ntrail123 ssh -q root@#{ip} "#{cmd}"}, ignore)
     }
 end
 
-def rcp(ip, src, dst = ".", ignore = false)
+def rcp (ip, src, dst = ".", ignore = false)
     sh("sshpass -p c0ntrail123 scp -q #{src} root@#{ip}:#{dst}", ignore)
 end
 
-def create_nodes_in_cluster(cluster_ip = @cluster)
+def create_nodes_in_cluster (cluster_ip = @cluster)
     cmds = <<EOF
 launch_vms.rb -n anantha-bgp-scale-node-config1 1
 launch_vms.rb -n anantha-bgp-scale-node-control1 1
@@ -134,7 +134,7 @@ def install_contrail
         "cd /opt/contrail/utils && fab install_contrail setup_all 2>&1 > /root/fab_install.log")
 end
 
-def build_bgp_stress_test
+def build_contrail_software
     sh("mkdir -p sandbox")
     sh("cd sandbox && repo init -u git@github.com:Juniper/contrail-vnc-private -m mainline/ubuntu-14-04/manifest-juno.xml")
     sh("cd sandbox && repo sync && python third_party/fetch_packages.py&& python distro/third_party/fetch_packages.py && BUILD_ONLY=1 scons -j32 src/bgp:bgp_stress_test && BUILD_ONLY=1 tools/packaging/build/packager.py --fail-on-error")
