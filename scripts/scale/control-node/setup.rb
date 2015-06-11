@@ -142,7 +142,7 @@ def build_contrail_software
 end
 
 def main
-    # create_nodes_in_cluster
+    create_nodes_in_cluster
     load_nodes_from_cluster
     fix_nodes
     copy_and_install_contrail_image
