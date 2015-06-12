@@ -50,12 +50,12 @@ end
 
 def load_nodes_from_cluster
     find_nodes = <<EOF
-sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list --fields name,networks | \grep bgp-scale'
+sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list | \grep bgp-scale
 EOF
 
     @nodes = { }
         sh(find_nodes).split(/\n/).each { |node|
-        next if node !~ /bgp-scale-node-(.*?)-(\d+)-(\d+)-(\d+)-(\d+).*internet=(\d+)\.(\d+)\.(\d+)\.(\d+)$/
+        next if node !~ /bgp-scale-node-(.*?)-(\d+)-(\d+)-(\d+)-(\d+).*internet=(\d+)\.(\d+)\.(\d+)\.(\d+)/
         type = $1
         public_ip = "#{$2}.#{$3}.#{$4}.#{$5}"
         private_ip = "#{$6}.#{$7}.#{$8}.#{$9}"
@@ -196,7 +196,7 @@ EOF
 end
 
 def main
-    create_nodes_in_cluster
+#   create_nodes_in_cluster
     load_nodes_from_cluster
     fix_nodes
     copy_and_install_contrail_image
