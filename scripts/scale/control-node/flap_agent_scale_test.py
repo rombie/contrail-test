@@ -41,6 +41,8 @@ class FlapAgentScaleInit (object):
 
     def __init__(self, args_str=None, pre_scale_setup=0):
         self._args = None
+        self._model = "/sys/block/sda/device/model"
+        self._model = "/sys/block/vda/device/modalias"
 
         #
         # Time how long test runs
