@@ -36,13 +36,13 @@ def create_nodes_in_cluster
     csh([%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}], true
     )
     cmds = <<EOF
-launch_vms.rb -n #{@user}-bgp-scale-node-vsrx1 -j -s bgp_scale_l2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-vsrx2 -j -s bgp_scale_l2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-config1 -s bgp_scale_l2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-control1 -s bgp_scale_l2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-control2 -s bgp_scale_l2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-test-server1 -s bgp_scale_l2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-test-server2 -s bgp_scale_l2 1
+launch_vms.rb -s bgp_scale_l2 -j -n #{@user}-bgp-scale-node-vsrx1 1
+launch_vms.rb -s bgp_scale_l2 -j -n #{@user}-bgp-scale-node-vsrx2 1
+launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-config1 1
+launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-control1 1
+launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-control2 1
+launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-testserver1 1
+launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-testserver2 1
 EOF
     cmds.split(/\n/).each { |cmd| Process.fork { csh([cmd]) } }
     Process.waitall
@@ -50,12 +50,12 @@ end
 
 def load_nodes_from_cluster
     find_nodes = <<EOF
-sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list --fields name,networks | \grep bgp-scale | awk '{print $4 $6}'
+sshpass -p c0ntrail123 ssh -q root@10.84.26.23 CI_ADMIN/ci-openstack.sh nova list --fields name,networks | \grep bgp-scale'
 EOF
 
     @nodes = { }
         sh(find_nodes).split(/\n/).each { |node|
-        next if node !~ /bgp-scale-node-(.*?)-(\d+)-(\d+)-(\d+)-(\d+)internet=(\d+)\.(\d+)\.(\d+)\.(\d+)$/
+        next if node !~ /bgp-scale-node-(.*?)-(\d+)-(\d+)-(\d+)-(\d+).*internet=(\d+)\.(\d+)\.(\d+)\.(\d+)$/
         type = $1
         public_ip = "#{$2}.#{$3}.#{$4}.#{$5}"
         private_ip = "#{$6}.#{$7}.#{$8}.#{$9}"
