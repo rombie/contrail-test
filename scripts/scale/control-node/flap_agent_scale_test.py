@@ -1637,7 +1637,7 @@ class FlapAgentScaleInit (object):
         result2 = subprocess.check_output(
             'uname -a',  stderr=subprocess.STDOUT, shell=True)
         result3 = subprocess.check_output(
-            'cat /sys/block/sda/device/model',  stderr=subprocess.STDOUT, shell=True)
+            self._model,  stderr=subprocess.STDOUT, shell=True)
         self._log_print(
             "INFO: ip:{0} Localhost uname and ulimit Settings:".format(local_ip))
         self._log_print(
@@ -1645,7 +1645,7 @@ class FlapAgentScaleInit (object):
         self._log_print(
             "INFO: ip:{0} ulimit -a \n{1}".format(local_ip, result2))
         self._log_print(
-            "INFO: ip:{0} cat /sys/block/sda/device/model \n{1}".format(local_ip, result3))
+            "INFO: ip:{0} cat " + self._model + "\n{1}".format(local_ip, result3))
 
         if re.search('Before', msg, re.IGNORECASE):
             result3 = subprocess.check_output(
@@ -1743,7 +1743,7 @@ class FlapAgentScaleInit (object):
                 'contrail-status; contrail-version')
             result3 = cnshell_self.execCmd(
                 'ls -lt %s' % self._args.control_node_binary_location)
-            result4 = cnshell_self.execCmd('cat /sys/block/sda/device/model')
+            result4 = cnshell_self.execCmd(self._model)
             self._log_print(
                 "INFO: ip:{0} Control Node ps info (with env vars) and version:".format(cn_ip))
             self._log_print(
@@ -1753,7 +1753,7 @@ class FlapAgentScaleInit (object):
             self._log_print(
                 "INFO: ip:{0} ls -lt {1}\n{2}".format(cn_ip, self._args.control_node_binary_location, result3))
             self._log_print(
-                "INFO: ip:{0} cat /sys/block/sda/device/model\n{1}".format(cn_ip, result4))
+                "INFO: ip:{0} cat " + self._model + "\n{1}".format(cn_ip, result4))
 
             #
             # Control node ulimit settings
@@ -1878,9 +1878,9 @@ class FlapAgentScaleInit (object):
                 "find / -name cassandra | gawk '\\''{print \"du -skh \" $1}'\\'' > /tmp/t.sh;sh /tmp/t.sh")
             self._log_print(
                 'INFO: ip:{0} find and du all cassandra\n{1}'.format(api_ip, mem_result6))
-            mem_result7 = api_fd.execCmd('cat /sys/block/sda/device/model')
+            mem_result7 = api_fd.execCmd(self._model)
             self._log_print(
-                "INFO: ip:{0} cat /sys/block/sda/device/model\n{1}".format(api_ip, mem_result7))
+                "INFO: ip:{0}" + self._model + "\n{1}".format(api_ip, mem_result7))
             mem_result8 = api_fd.execCmd('cat /proc/`pidof vizd`/io')
             self._log_print(
                 "INFO: ip:{0} cat /proc/`pidof vizd`/io\n{1}".format(api_ip, mem_result8))
