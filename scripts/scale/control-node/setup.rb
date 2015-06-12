@@ -33,7 +33,7 @@ def junos_setup
 end
 
 def create_nodes_in_cluster
-    csh([%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}]
+    csh([%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}], true
     )
     cmds = <<EOF
 launch_vms.rb -n #{@user}-bgp-scale-node-vsrx1 -j -s bgp_scale_l2 1
