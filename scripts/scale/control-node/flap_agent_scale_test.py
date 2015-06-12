@@ -1637,7 +1637,7 @@ class FlapAgentScaleInit (object):
         result2 = subprocess.check_output(
             'uname -a',  stderr=subprocess.STDOUT, shell=True)
         result3 = subprocess.check_output(
-            self._model,  stderr=subprocess.STDOUT, shell=True)
+            "cat " + self._model,  stderr=subprocess.STDOUT, shell=True)
         self._log_print(
             "INFO: ip:{0} Localhost uname and ulimit Settings:".format(local_ip))
         self._log_print(
@@ -1743,7 +1743,7 @@ class FlapAgentScaleInit (object):
                 'contrail-status; contrail-version')
             result3 = cnshell_self.execCmd(
                 'ls -lt %s' % self._args.control_node_binary_location)
-            result4 = cnshell_self.execCmd(self._model)
+            result4 = cnshell_self.execCmd("cat " + self._model)
             self._log_print(
                 "INFO: ip:{0} Control Node ps info (with env vars) and version:".format(cn_ip))
             self._log_print(
@@ -1878,7 +1878,7 @@ class FlapAgentScaleInit (object):
                 "find / -name cassandra | gawk '\\''{print \"du -skh \" $1}'\\'' > /tmp/t.sh;sh /tmp/t.sh")
             self._log_print(
                 'INFO: ip:{0} find and du all cassandra\n{1}'.format(api_ip, mem_result6))
-            mem_result7 = api_fd.execCmd(self._model)
+            mem_result7 = api_fd.execCmd("cat " + self._model)
             self._log_print(
                 "INFO: ip:{0}" + self._model + "\n{1}".format(api_ip, mem_result7))
             mem_result8 = api_fd.execCmd('cat /proc/`pidof vizd`/io')
