@@ -19,22 +19,32 @@ def rsh (ip, cmds, ignore = false)
     }
 end
 
+def csh (cmds, ignore = false)
+    cmds.each { |cmd| rsh(@cluster, cmds, ignore) }
+end
+
 def rcp (ip, src, dst = ".", ignore = false)
     sh("sshpass -p c0ntrail123 scp -q #{src} root@#{ip}:#{dst}", ignore)
 end
 
-def create_nodes_in_cluster (cluster_ip = @cluster)
-    rsh(cluster_ip,
-        [%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}]
+def junos_setup
+    csh("glance image-create --container-format bare --disk-format raw --progress --file bgp-scale-vsrx.img --name bgp-scale-vsrx --is-public True")
+    rsh("launch_vms.rb -n #{@user}-bgp-scale-node-vsrx1")
+end
+
+def create_nodes_in_cluster
+    csh([%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}]
     )
     cmds = <<EOF
-launch_vms.rb -n #{@user}-bgp-scale-node-config1 1
-launch_vms.rb -n #{@user}-bgp-scale-node-control1 1
-launch_vms.rb -n #{@user}-bgp-scale-node-control2 1
-launch_vms.rb -n #{@user}-bgp-scale-node-test-server1 1
-launch_vms.rb -n #{@user}-bgp-scale-node-test-server2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-vsrx1 -j -s bgp_scale_l2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-vsrx2 -j -s bgp_scale_l2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-config1 -s bgp_scale_l2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-control1 -s bgp_scale_l2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-control2 -s bgp_scale_l2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-test-server1 -s bgp_scale_l2 1
+launch_vms.rb -n #{@user}-bgp-scale-node-test-server2 -s bgp_scale_l2 1
 EOF
-    cmds.split(/\n/).each { |cmd| Process.fork { rsh(cluster_ip, [cmd]) } }
+    cmds.split(/\n/).each { |cmd| Process.fork { csh([cmd]) } }
     Process.waitall
 end
 
@@ -147,6 +157,42 @@ def build_contrail_software
     sh("mkdir -p sandbox")
     sh("cd sandbox && repo init -u git@github.com:Juniper/contrail-vnc-private -m mainline/ubuntu-14-04/manifest-juno.xml")
     sh("cd sandbox && repo sync && python third_party/fetch_packages.py&& python distro/third_party/fetch_packages.py && BUILD_ONLY=1 scons -j32 src/bgp:bgp_stress_test && BUILD_ONLY=1 tools/packaging/build/packager.py --fail-on-error")
+end
+
+def setup_junos_peering
+cmd=<<EOF
+python provision_mx.py --router_name ananth-bgp-scale-junos1-10-84-34-17 --router_ip 192.168.0.111 --router_asn 64512 --oper add --admin_user admin --admin_password c0ntrail123 --admin_tenant_name admin
+EOF
+    sh(cmd)
+end
+
+def create_l2
+cmds=<<EOF
+import subprocess
+from vnc_api.vnc_api import *
+from vnc_api import vnc_api
+_vnc_lib = VncApi("ci-admin", "c0ntrail123", "opencontrail-ci", "10.84.26.251", 8082, '/')
+p = _vnc_lib.project_read(fq_name = ['default-domain', 'opencontrail-ci'])
+vnp = vnc_api.VirtualNetworkType()
+vnp.forwarding_mode = "l2"
+vn = vnc_api.VirtualNetwork(name = "bgp_scale_l2", parenet_obj = p)
+vn.set_virtual_network_properties(vnp)
+vn.fq_name[-2] = "opencontrail-ci"
+_vnc_lib.virtual_network_create(vn)
+subprocess.check_output("neutron subnet-create --gateway 0.0.0.0 --tenant-id 6e432347a1d24d528a6ec78932b7bb09 --name bgp_scale_l2_subnet bgp_scale_l2 1.1.0.0/16", shell=True)
+EOF
+end
+
+def run_bgp_scale_test
+    commands = <<EOF
+cd /root/contrail-test/scripts/scale/control-node
+export PYTHONPATH=/root/contrail-test
+cp bgp_stress_test
+sshpass -p c0ntrail123 scp ci-admin@10.84.5.31:build/lib/libtcmalloc.so.4 /usr/lib
+sshpass -p c0ntrail123 scp ci-admin@10.84.5.31:bgp_stress_test $PWD
+mkdir -p /root/bgp
+python flap_agent_scale_test.py -c params.ini
+EOF
 end
 
 def main

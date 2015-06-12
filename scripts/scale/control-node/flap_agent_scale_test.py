@@ -631,11 +631,14 @@ class FlapAgentScaleInit (object):
         #
         # Get localhost IP
         #
-        cmd = 'resolveip -s $HOSTNAME'
+        cmd = 'resolveip -s `hostname`'
         status, ip = self._get_subprocess_info(cmd)
 
         if status:
             self.localhost_ip = ip[:-1]
+        else:
+            self._log_print("ERROR: Cannot resolve hostname")
+            sys.exit()
 
         #
         # Get linux distribution for test server
