@@ -823,8 +823,9 @@ def get_kernel_routes_light(self):
 
 def get_localhost_ip():
 
-    ip = subprocess.check_output(
-        'resolveip -s `hostname`', stderr=subprocess.STDOUT, shell=True)
+    cmd = 'resolveip -s `hostname`'
+    cmd = "ip addr show | \grep 1.1.1 | awk '{print $2}' | cut -d '/' -f 1"
+    ip = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
     return ip[:-1]  # chop newline
 
 # end get_localhost_ip

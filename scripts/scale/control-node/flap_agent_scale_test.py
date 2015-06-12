@@ -634,6 +634,7 @@ class FlapAgentScaleInit (object):
         # Get localhost IP
         #
         cmd = 'resolveip -s `hostname`'
+        cmd = "ip addr show | \grep 1.1.1 | awk '{print $2}' | cut -d '/' -f 1"
         status, ip = self._get_subprocess_info(cmd)
 
         if status:
