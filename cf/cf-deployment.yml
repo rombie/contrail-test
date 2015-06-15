@@ -1,0 +1,1420 @@
+compilation:
+  cloud_properties:
+    instance_type: m1.medium
+  network: cf-network
+  reuse_compilation_vms: true
+  workers: 6
+director_uuid: 9d99c844-974e-4eb8-acc3-16857875e5b7
+jobs:
+- default_networks:
+  - name: cf-network
+    type: manual
+  instances: 1
+  name: ha_proxy_z1
+  networks:
+  - default: [dns, gateway]
+    name: cf-network
+    static_ips:
+    - 192.168.0.100
+  properties:
+    ha_proxy:
+      disable_http: false
+      ssl_ciphers: null
+      ssl_pem: |
+        -----BEGIN CERTIFICATE-----
+        MIIDyDCCArACCQDh66+ypnTFLzANBgkqhkiG9w0BAQsFADCBpTELMAkGA1UEBhMC
+        VVMxCzAJBgNVBAgMAkNBMRIwEAYDVQQHDAlTdW5ueXZhbGUxHTAbBgNVBAoMFEp1
+        bmlwZXIgTmV0d29ya3MgSW5jMREwDwYDVQQLDAhDb250cmFpbDEfMB0GA1UEAwwW
+        Ki4xOTIuMTY4LjAuMTAwLnhpcC5pbzEiMCAGCSqGSIb3DQEJARYTYW5hbnRoYUBq
+        dW5pcGVyLm5ldDAeFw0xNTAzMTcyMDE3MzFaFw0xNjAzMTYyMDE3MzFaMIGlMQsw
+        CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEdMBsG
+        A1UECgwUSnVuaXBlciBOZXR3b3JrcyBJbmMxETAPBgNVBAsMCENvbnRyYWlsMR8w
+        HQYDVQQDDBYqLjE5Mi4xNjguMC4xMDAueGlwLmlvMSIwIAYJKoZIhvcNAQkBFhNh
+        bmFudGhhQGp1bmlwZXIubmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+        AQEAoMCEDwsyyhVO5FdCk3Bf0lxboV+XsxA3A+Pp4htUxUD7Ba9LwSsirZbj6uc8
+        8nAJpxUXwNztrQt53WN7qwjq8eeD2HayoYmLHQgWuwznhLT3OI/dPC3EfvhNCxOq
+        kRjg76pXEm3b9TT6Jm8uiv6Ez9sty2W+FMcgj4ZtYBA0zmw+yiWs+5oo8EYBOXbx
+        QmRRE5QpG8zT5PjOpyAAc+ZhlPstSba07lgUu6mLmydVsp/QWNvg6SaG0QUPZz1v
+        5HqnloFNPlH7LfseInX0BSlIVm4G2LRu4tqqjuBLQ+WN/7uOkWvON2AVMziOTpWb
+        /4j9aFVisJdaprN/w4D02X/0iQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBbI2mI
+        4mcyXNtrpLUuyW/xl4ibCocFGRR6ci/OvKzN03Vvb9XfGkkAS4yaT9DtMJNxrvhn
+        Aq0Bwab1eehznKPZ7wlvtmxRgauWjG7xPRODDbmI4XDmV5Z3H+FOWXkW2ULkJyxn
+        7UN75PMfXxTVSwdWb9THebguLvE0xI4QxJQYuNiF26llQCbmckd+K67+PIMaXVsB
+        eu8patMxISY5s6bnV7N3tX+UTVbVfcco5bb7qPw/XIwHf87SqXxoN8YbtSy0C2Ve
+        FTilSo47TjgmgF3057+OaYzb0W3Gi+7xcN95KRl3KPfu9C4sR/rblBaOsJ855yPG
+        UZxThNgWL7SXYj2a
+        -----END CERTIFICATE-----
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEAoMCEDwsyyhVO5FdCk3Bf0lxboV+XsxA3A+Pp4htUxUD7Ba9L
+        wSsirZbj6uc88nAJpxUXwNztrQt53WN7qwjq8eeD2HayoYmLHQgWuwznhLT3OI/d
+        PC3EfvhNCxOqkRjg76pXEm3b9TT6Jm8uiv6Ez9sty2W+FMcgj4ZtYBA0zmw+yiWs
+        +5oo8EYBOXbxQmRRE5QpG8zT5PjOpyAAc+ZhlPstSba07lgUu6mLmydVsp/QWNvg
+        6SaG0QUPZz1v5HqnloFNPlH7LfseInX0BSlIVm4G2LRu4tqqjuBLQ+WN/7uOkWvO
+        N2AVMziOTpWb/4j9aFVisJdaprN/w4D02X/0iQIDAQABAoIBAHES2hGG7APv9x1x
+        L9hsHErpQl8B0cBX8Irg/3xXg0p5CdmW06+d+vemAs4SN/HE01Ve5eV4wgqN3vvW
+        ZYAKdtEP69MQs1gjWuJh9TM/wX68mIWF1LXm76fsWq0m+Ty1BkwvQq4o7qbNzAPL
+        Ay8sFxnqb4z6FTmiVAoBIeCHpc1og1eQnmP5NtTdIlfkF7E1HRGZ2Fiybd1hCfEg
+        nHhD5T0AaSlEbAbqNG4XjqIGcWKfbzXMcWbBSjMSPWXZY7RcBmmIeo9nqkopS6gL
+        IKwtYE2cLTmbUYEeSXFzZOX2BD8Rq2rASsjxu1LqMT0SpgMq7jcAAJOTuFT7exPp
+        z/NNzX0CgYEAzl0VY/vWsTQZ7DDATPXbcLHXcid+GmAm68YKRfZKEGpIU8hGRIQJ
+        ozGZ5AMdDLR3dadJDxcKCiwUa44Ut0cVCA8rpqmCgAZuznfVOImhqlyI1TB7g0Ye
+        1qV+xUS7TtAjx5REi6hSxYEa576PIPDuCDcZRxlKivcQsLELLhm7ot8CgYEAx2rh
+        o1HU95ZjUcDYoU3YqKJWuq7gVARtzEbKNNAp1th3wxEQzgCo6Ov4ibbPdnC7zjYd
+        gA2pIRA6BhoJ/1ZJ9UMuEQblQGbiqPHJ4jWWCrQgf4r5z/t5PEaPYsroxc1Zu8ex
+        lVQzf+fXPtfAfg6M0pWynegCcq/rlBr34Qg0fZcCgYBSbfgXYgcV7VvVbnvBwgsP
+        btpCLOhAHNwvHYIJBCH9gJa3cK4wvBUlbLCt1ViLNKLrChEyx98oxQa7F5vKwcfy
+        2ixzfA42mVs1ecRfuwoqhJ/bmGwduaqjzqNepN+00YsZM25V4rx9S961ZvbBD7vk
+        6C1eqwmNjLbL/Uwb9AdxPQKBgQC6+Ox8W7KJPTj8Iws6Giok2qjkuihcvhZQbKMU
+        Z4SDC00m2S5fZ+D3GqBaRsw36bU8wCJiuOw1sugkZm+vNzF6wzVDA6sY+h5Udvdp
+        oAKBIKhDzYMyTT87k5DG+SbMpyAWX0KSl3L93ttC8blqt6uzmmXxheIds/H2WF7H
+        YBEPGwKBgHnr5RddCXo4APC24IJiNs8qbTPb0AP7nyYZNrnmBv9dWmjBBxXztAw6
+        smreo3vIr9RjSCQx6qtHxLKPyt366f/jWNwBD96M4wXFXYK88/KXRtXGHv+7BALp
+        OQCyvsdhGpQV7kofdRpM60Iu2a1Bb5XgbbibGMYn1wQfJP3lpHvv
+        -----END RSA PRIVATE KEY-----
+
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+    router:
+      servers:
+        z1:
+        - 192.168.0.115
+        z2: []
+  resource_pool: router_z1
+  templates:
+  - name: haproxy
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: nats_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.101
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: nats
+    release: cf
+  - name: nats_stream_forwarder
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: nats_z2
+  networks:
+  - name: cf2
+    static_ips: []
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: medium_z2
+  templates:
+  - name: nats
+    release: cf
+  - name: nats_stream_forwarder
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: etcd_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.102
+  persistent_disk: 10024
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: etcd
+    release: cf
+  - name: etcd_metrics_server
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: etcd_z2
+  networks:
+  - name: cf2
+    static_ips: []
+  persistent_disk: 10024
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: medium_z2
+  templates:
+  - name: etcd
+    release: cf
+  - name: etcd_metrics_server
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: stats_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.103
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: small_z1
+  templates:
+  - name: collector
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: nfs_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.104
+  persistent_disk: 102400
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: debian_nfs_server
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: postgres_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.105
+  persistent_disk: 4096
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: postgres
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: uaa_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.106
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: uaa
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: uaa_z2
+  networks:
+  - name: cf2
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: medium_z2
+  templates:
+  - name: uaa
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: login_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.107
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: login
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: login_z2
+  networks:
+  - name: cf2
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: medium_z2
+  templates:
+  - name: login
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: api_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.108
+  persistent_disk: 0
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+    nfs_server:
+      address: 192.168.0.104
+      network: 192.168.0.0/16
+      allow_from_entries:
+      - 192.166.0.0/16
+      - 192.167.0.0/16
+      - 192.168.0.0/16
+      share: null
+  resource_pool: large_z1
+  templates:
+  - name: cloud_controller_ng
+    release: cf
+  - name: metron_agent
+    release: cf
+  - name: nfs_mounter
+    release: cf
+  update: {}
+- instances: 0
+  name: api_z2
+  networks:
+  - name: cf2
+  persistent_disk: 0
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+    nfs_server:
+      address: 192.168.0.104
+      network: 192.168.0.0/16
+      allow_from_entries:
+      - 192.166.0.0/16
+      - 192.167.0.0/16
+      - 192.168.0.0/16
+      share: null
+  resource_pool: large_z2
+  templates:
+  - name: cloud_controller_ng
+    release: cf
+  - name: metron_agent
+    release: cf
+  - name: nfs_mounter
+    release: cf
+  update: {}
+- instances: 1
+  name: clock_global
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.109
+  persistent_disk: 0
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: cloud_controller_clock
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: api_worker_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.110
+  persistent_disk: 0
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+    nfs_server:
+      address: 192.168.0.104
+      network: 192.168.0.0/16
+      allow_from_entries:
+      - 192.166.0.0/16
+      - 192.167.0.0/16
+      - 192.168.0.0/16
+      share: null
+  resource_pool: small_z1
+  templates:
+  - name: cloud_controller_worker
+    release: cf
+  - name: metron_agent
+    release: cf
+  - name: nfs_mounter
+    release: cf
+  update: {}
+- instances: 0
+  name: api_worker_z2
+  networks:
+  - name: cf2
+  persistent_disk: 0
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+    nfs_server:
+      address: 192.168.0.104
+      network: 192.168.0.0/16
+      allow_from_entries:
+      - 192.166.0.0/16
+      - 192.167.0.0/16
+      - 192.168.0.0/16
+      share: null
+  resource_pool: small_z2
+  templates:
+  - name: cloud_controller_worker
+    release: cf
+  - name: metron_agent
+    release: cf
+  - name: nfs_mounter
+    release: cf
+  update: {}
+- instances: 1
+  name: hm9000_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.111
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: hm9000
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: hm9000_z2
+  networks:
+  - name: cf2
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: medium_z2
+  templates:
+  - name: hm9000
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: runner_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.112
+  properties:
+    dea_next:
+      zone: z1
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: runner_z1
+  templates:
+  - name: dea_next
+    release: cf
+  - name: dea_logging_agent
+    release: cf
+  - name: metron_agent
+    release: cf
+  update:
+    max_in_flight: 1
+- instances: 0
+  name: runner_z2
+  networks:
+  - name: cf2
+    static_ips: []
+  properties:
+    dea_next:
+      zone: z2
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: runner_z2
+  templates:
+  - name: dea_next
+    release: cf
+  - name: dea_logging_agent
+    release: cf
+  - name: metron_agent
+    release: cf
+  update:
+    max_in_flight: 1
+- instances: 1
+  name: loggregator_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.113
+  properties:
+    doppler:
+      zone: z1
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: medium_z1
+  templates:
+  - name: doppler
+    release: cf
+  - name: syslog_drain_binder
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: loggregator_z2
+  networks:
+  - name: cf2
+  properties:
+    doppler:
+      zone: z2
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: medium_z2
+  templates:
+  - name: doppler
+    release: cf
+  - name: syslog_drain_binder
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: loggregator_trafficcontroller_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.114
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+    traffic_controller:
+      zone: z1
+  resource_pool: small_z1
+  templates:
+  - name: loggregator_trafficcontroller
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: loggregator_trafficcontroller_z2
+  networks:
+  - name: cf2
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+    traffic_controller:
+      zone: z2
+  resource_pool: small_z2
+  templates:
+  - name: loggregator_trafficcontroller
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 1
+  name: router_z1
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.115
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: router_z1
+  templates:
+  - name: gorouter
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  name: router_z2
+  networks:
+  - name: cf2
+    static_ips: []
+  properties:
+    metron_agent:
+      zone: z2
+    networks:
+      apps: cf2
+  resource_pool: router_z2
+  templates:
+  - name: gorouter
+    release: cf
+  - name: metron_agent
+    release: cf
+  update: {}
+- instances: 0
+  lifecycle: errand
+  name: acceptance_tests
+  networks:
+  - name: cf-network
+  resource_pool: small_errand
+  templates:
+  - name: acceptance-tests
+    release: cf
+- instances: 0
+  lifecycle: errand
+  name: smoke_tests
+  networks:
+  - name: cf-network
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: cf-network
+  resource_pool: small_errand
+  templates:
+  - name: smoke-tests
+    release: cf
+- instances: 1
+  name: mysql
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.120
+  persistent_disk: 100000
+  properties:
+    metron_agent:
+      zone: z1
+    admin_password: c0ntrail123
+    cluster_ips:
+    - 192.168.0.120
+    network_name: cf-network
+    seeded_databases: null
+    syslog_aggregator: null
+  release: cf-mysql
+  resource_pool: small_z1
+  template: mysql
+- instances: 2
+  name: proxy
+  networks:
+  - name: cf-network
+    static_ips:
+    - 192.168.0.121
+    - 192.168.0.122
+  properties:
+    metron_agent:
+      zone: z1
+    cluster_ips:
+    - 192.168.0.120
+    external_host: p-mysql.192.168.0.100.xip.io
+    nats:
+      machines:
+      - 192.168.0.101
+      password: c0ntrail123
+      port: 4222
+      user: admin
+    network_name: cf-network
+    proxy:
+      api_password: c0ntrail123
+      api_username: admin
+    syslog_aggregator: null
+  release: cf-mysql
+  resource_pool: small_z1
+  template: proxy
+- instances: 2
+  name: cf-mysql-broker
+  networks:
+  - name: cf-network
+  properties:
+    metron_agent:
+      zone: z1
+    auth_password: c0ntrail123
+    auth_username: admin
+    cc_api_uri: https://api.192.168.0.100.xip.io
+    cookie_secret: c0ntrail123
+    external_host: p-mysql.192.168.0.100.xip.io
+    max_user_connections_default: 40
+    mysql_node:
+      admin_password: c0ntrail123
+      host: 192.168.0.121
+      persistent_disk: 100000
+    nats:
+      machines:
+      - 192.168.0.101
+      password: c0ntrail123
+      port: 4222
+      user: admin
+    network_name: cf-network
+    networks:
+      broker_network: cf-network
+    services:
+    - dashboard_client:
+        id: p-mysql
+        secret: c0ntrail123
+      description: MySQL databases on demand
+      id: 44b26033-1f54-4087-b7bc-da9652c2a539
+      metadata:
+        displayName: MySQL for Pivotal CF
+        documentationUrl: http://docs.pivotal.io/p-mysql/
+        imageUrl: data:image/png;base64,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
+        longDescription: Creating a service instance provisions a database. Binding
+          applications provisions unique credentials for each application to access
+          the database.
+        providerDisplayName: Pivotal Software
+        supportUrl: https://support.pivotal.io
+      name: p-mysql
+      plan_updateable: true
+      plans:
+      - description: Shared MySQL Server
+        id: ab08f1bc-e6fc-4b56-a767-ee0fea6e3f20
+        max_storage_mb: 10
+        max_user_connections: 20
+        metadata:
+          bullets:
+          - Shared MySQL server
+          - 100 MB storage
+          - 20 concurrent connections
+          costs:
+          - amount:
+              usd: 0
+            unit: MONTH
+          displayName: 100 MB
+        name: 100mb
+      - description: Shared MySQL Server
+        id: 11d0aa36-dcec-4021-85f5-ea4d9a5c8342
+        max_storage_mb: 20
+        max_user_connections: 40
+        metadata:
+          bullets:
+          - Shared MySQL server
+          - 1000 MB storage
+          - 40 concurrent connections
+          costs:
+          - amount:
+              usd: 0
+            unit: MONTH
+          displayName: 1 GB
+        name: 1gb
+      tags:
+      - mysql
+    skip_ssl_validation: true
+    syslog_aggregator: null
+  release: cf-mysql
+  resource_pool: small_z1
+  template: cf-mysql-broker
+- instances: 1
+  lifecycle: errand
+  name: broker-registrar
+  networks:
+  - name: cf-network
+  properties:
+    metron_agent:
+      zone: z1
+    broker:
+      host: p-mysql.192.168.0.100.xip.io
+      name: p-mysql
+      password: c0ntrail123
+      username: admin
+    cf:
+      admin_password: c0ntrail123
+      admin_username: admin
+      api_url: https://api.192.168.0.100.xip.io
+  release: cf-mysql
+  resource_pool: small_z1
+  template: broker-registrar
+- instances: 1
+  lifecycle: errand
+  name: broker-deregistrar
+  networks:
+  - name: cf-network
+  properties:
+    metron_agent:
+      zone: z1
+    broker:
+      host: p-mysql.192.168.0.100.xip.io
+      name: p-mysql
+      password: c0ntrail123
+      username: admin
+    cf:
+      admin_password: c0ntrail123
+      admin_username: admin
+      api_url: https://api.192.168.0.100.xip.io
+  release: cf-mysql
+  resource_pool: small_z1
+  template: broker-deregistrar
+- instances: 1
+  lifecycle: errand
+  name: acceptance-tests2
+  networks:
+  - name: cf-network
+  properties:
+    metron_agent:
+      zone: z1
+    broker:
+      host: p-mysql.192.168.0.100.xip.io
+    cf:
+      admin_password: c0ntrail123
+      admin_username: admin
+      api_url: https://api.192.168.0.100.xip.io
+      apps_domain: 192.168.0.100.xip.io
+      skip_ssl_validation: true
+    proxy:
+      api_password: c0ntrail123
+      api_username: admin
+      external_host: p-mysql.192.168.0.100.xip.io
+    service:
+      max_user_connections_default: 40
+      name: p-mysql
+      plans:
+      - max_storage_mb: 10
+        max_user_connections: 20
+        plan_name: 100mb
+      - max_storage_mb: 20
+        max_user_connections: 40
+        plan_name: 1gb
+  release: cf-mysql
+  resource_pool: small_z1
+  template: acceptance-tests
+meta:
+  default_env:
+    bosh:
+      password: c0ntrail123
+  apps_domain: 192.168.0.100.xip.io
+  external_domain: 192.168.0.100.xip.io
+  environment: null
+  nats:
+    machines:
+      - 192.168.0.101
+    password: c0ntrail123
+    port: 4222
+    user: admin
+  releases:
+  - name: cf
+    version: latest
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+name: cf
+networks:
+- cloud_properties:
+    net_id: e3d97f4a-69ca-4232-a8fc-93d122559b88
+    security_groups:
+    - cf
+  name: public
+  type: vip
+- name: cf-network
+  subnets:
+  - cloud_properties:
+      net_id: c389522a-a962-44ff-a597-8e638829069f
+      security_groups:
+      - cf
+    dns:
+    - 192.168.0.1
+    gateway: 192.168.0.1
+    name: private
+    range: 192.168.0.0/16
+    reserved:
+    - 192.168.0.2 - 192.168.0.40
+    static:
+    - 192.168.0.100 - 192.168.0.200
+  type: manual
+- name: cf2
+  subnets:
+  - cloud_properties:
+      net_id: 2a74eab1-2bb0-4a50-ae05-7c7fd4f7aec4
+      security_groups:
+      - cf
+    dns:
+    - 192.167.0.1
+    gateway: 192.167.0.1
+    name: private
+    range: 192.167.0.0/16
+    reserved:
+    - 192.167.0.2 - 192.167.0.40
+    static:
+    - 192.167.0.100 - 192.167.0.200
+  type: manual
+properties:
+  acceptance_tests: null
+  app_domains:
+  - 192.168.0.100.xip.io
+  cc:
+    allowed_cors_domains: []
+    app_events:
+      cutoff_age_in_days: 31
+    app_usage_events:
+      cutoff_age_in_days: 31
+    audit_events:
+      cutoff_age_in_days: 31
+    billing_event_writing_enabled: true
+    broker_client_default_async_poll_interval_seconds: 60
+    broker_client_timeout_seconds: 70
+    buildpacks:
+      buildpack_directory_key: buildpack_directory
+      cdn: null
+      fog_connection: null
+    bulk_api_password: c0ntrail123
+    client_max_body_size: 1536M
+    db_encryption_key: the_key
+    db_logging_level: debug2
+    default_app_disk_in_mb: 1024
+    default_app_memory: 1024
+    default_buildpacks:
+    - name: java_buildpack
+      package: buildpack_java
+    - name: ruby_buildpack
+      package: buildpack_ruby
+    - name: nodejs_buildpack
+      package: buildpack_nodejs
+    - name: go_buildpack
+      package: buildpack_go
+    - name: python_buildpack
+      package: buildpack_python
+    - name: php_buildpack
+      package: buildpack_php
+    default_health_check_timeout: 60
+    default_quota_definition: default
+    default_running_security_groups:
+    - public_networks
+    - dns
+    default_staging_security_groups:
+    - public_networks
+    - dns
+    development_mode: false
+    diego_docker: false
+    directories: null
+    disable_custom_buildpacks: false
+    droplets:
+      cdn: null
+      droplet_directory_key: droplet_directory
+      fog_connection: null
+    external_host: api
+    external_protocol: http
+    install_buildpacks:
+    - name: java_buildpack
+      package: buildpack_java
+    - name: ruby_buildpack
+      package: buildpack_ruby
+    - name: nodejs_buildpack
+      package: buildpack_nodejs
+    - name: go_buildpack
+      package: buildpack_go
+    - name: python_buildpack
+      package: buildpack_python
+    - name: php_buildpack
+      package: buildpack_php
+    internal_api_password: c0ntrail123
+    internal_api_user: internal_user
+    jobs:
+      app_bits_packer:
+        timeout_in_seconds: null
+      app_events_cleanup:
+        timeout_in_seconds: null
+      app_usage_events_cleanup:
+        timeout_in_seconds: null
+      blobstore_delete:
+        timeout_in_seconds: null
+      blobstore_upload:
+        timeout_in_seconds: null
+      droplet_deletion:
+        timeout_in_seconds: null
+      droplet_upload:
+        timeout_in_seconds: null
+      generic:
+        number_of_workers: null
+      global:
+        timeout_in_seconds: 14400
+      model_deletion:
+        timeout_in_seconds: null
+    logging_level: debug2
+    maximum_app_disk_in_mb: 2048
+    maximum_health_check_timeout: 180
+    newrelic:
+      capture_params: false
+      developer_mode: false
+      environment_name: null
+      license_key: null
+      monitor_mode: false
+      transaction_tracer:
+        enabled: true
+        record_sql: obfuscated
+    packages:
+      app_package_directory_key: 192.168.0.100.xip.io-cc-packages
+      cdn: null
+      fog_connection: null
+      max_package_size: 1073741824
+    quota_definitions:
+      default:
+        memory_limit: 10240
+        non_basic_services_allowed: true
+        total_routes: 1000
+        total_services: 100
+    resource_pool:
+      cdn: null
+      fog_connection: null
+      resource_directory_key: 192.168.0.100.xip.io-cc-resources
+    security_group_definitions:
+    - name: public_networks
+      rules:
+      - destination: 0.0.0.0-9.255.255.255
+        protocol: all
+      - destination: 11.0.0.0-169.253.255.255
+        protocol: all
+      - destination: 169.255.0.0-172.15.255.255
+        protocol: all
+      - destination: 172.32.0.0-192.167.255.255
+        protocol: all
+      - destination: 192.169.0.0-255.255.255.255
+        protocol: all
+    - name: dns
+      rules:
+      - destination: 0.0.0.0/0
+        ports: "53"
+        protocol: tcp
+      - destination: 0.0.0.0/0
+        ports: "53"
+        protocol: udp
+    srv_api_uri: http://api.192.168.0.100.xip.io
+    stacks: null
+    staging_upload_password: c0ntrail123
+    staging_upload_user: admin
+    system_buildpacks:
+    - name: java_buildpack
+      package: buildpack_java
+    - name: ruby_buildpack
+      package: buildpack_ruby
+    - name: nodejs_buildpack
+      package: buildpack_nodejs
+    - name: go_buildpack
+      package: buildpack_go
+    - name: python_buildpack
+      package: buildpack_python
+    - name: php_buildpack
+      package: buildpack_php
+    thresholds:
+      api:
+        alert_if_above_mb: null
+        restart_if_above_mb: null
+        restart_if_consistently_above_mb: null
+      worker:
+        alert_if_above_mb: null
+        restart_if_above_mb: null
+        restart_if_consistently_above_mb: null
+    user_buildpacks: []
+  ccdb:
+    address: 192.168.0.105
+    databases:
+    - name: ccdb
+      tag: cc
+    db_scheme: postgres
+    port: 5524
+    roles:
+    - name: ccadmin
+      password: c0ntrail123
+      tag: admin
+  collector: null
+  databases:
+    address: 192.168.0.105
+    databases:
+    - citext: true
+      name: ccdb
+      tag: cc
+    - citext: true
+      name: uaadb
+      tag: uaa
+    db_scheme: postgres
+    port: 5524
+    roles:
+    - name: ccadmin
+      password: c0ntrail123
+      tag: admin
+    - name: uaaadmin
+      password: c0ntrail123
+      tag: admin
+  dea_next:
+    advertise_interval_in_seconds: 5
+    allow_networks: null
+    default_health_check_timeout: 60
+    deny_networks: null
+    directory_server_protocol: http
+    disk_mb: 2048
+    disk_overcommit_factor: 2
+    evacuation_bail_out_time_in_seconds: 600
+    heartbeat_interval_in_seconds: 10
+    instance_disk_inode_limit: 200000
+    kernel_network_tuning_enabled: true
+    logging_level: debug
+    memory_mb: 1024
+    memory_overcommit_factor: 3
+    rlimit_core: 0
+    staging_disk_inode_limit: 200000
+    staging_disk_limit_mb: 4096
+    staging_memory_limit_mb: 1024
+  description: Cloud Foundry sponsored by Pivotal
+  disk_quota_enabled: true
+  domain: 192.168.0.100.xip.io
+  doppler:
+    blacklisted_syslog_ranges: null
+    debug: false
+    maxRetainedLogMessages: 100
+  doppler_endpoint:
+    shared_secret: c0ntrail123
+  dropsonde:
+    enabled: true
+  etcd:
+    machines:
+    - []
+  etcd_metrics_server:
+    nats:
+      machines:
+      - 192.168.0.101
+      password: c0ntrail123
+      username: admin
+  hm9000:
+    url: http://hm9000.192.168.0.100.xip.io
+  logger_endpoint:
+    port: 4443
+  loggregator:
+    blacklisted_syslog_ranges: null
+    debug: false
+    maxRetainedLogMessages: 100
+  loggregator_endpoint:
+    shared_secret: c0ntrail123
+  login:
+    analytics:
+      code: null
+      domain: null
+    asset_base_url: null
+    brand: oss
+    catalina_opts: -Xmx768m -XX:MaxPermSize=256m
+    enabled: true
+    invitations_enabled: null
+    links:
+      home: http://console.192.168.0.100.xip.io
+      network: null
+      passwd: http://console.192.168.0.100.xip.io/password_resets/new
+      signup: http://console.192.168.0.100.xip.io/register
+      signup-network: null
+    messages: null
+    notifications:
+      url: null
+    protocol: http
+    restricted_ips_regex: 10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}
+    saml: null
+    self_service_links_enabled: null
+    signups_enabled: null
+    smtp:
+      host: null
+      password: null
+      port: null
+      user: null
+    spring_profiles: null
+    tiles: null
+    uaa_base: null
+    uaa_certificate: null
+    url: null
+  metron_endpoint:
+    shared_secret: c0ntrail123
+  nats:
+    address: 192.168.0.101
+    debug: false
+    machines:
+    - 192.168.0.101
+    monitor_port: 0
+    password: c0ntrail123
+    port: 4222
+    prof_port: 0
+    trace: false
+    user: admin
+  nfs_server:
+    address: 192.168.0.104
+    network: 192.168.0.0/16
+    allow_from_entries:
+    - 192.166.0.0/16
+    - 192.167.0.0/16
+      - 192.168.0.0/16
+    share: null
+  request_timeout_in_seconds: 900
+  router:
+    requested_route_registration_interval_in_seconds: 20
+    secure_cookies: true
+    status:
+      password: c0ntrail123
+      user: admin
+  smoke_tests: null
+  ssl:
+    skip_cert_verify: true
+  support_address: http://support.cloudfoundry.com
+  syslog_daemon_config: null
+  system_domain: 192.168.0.100.xip.io
+  system_domain_organization: null
+  uaa:
+    admin:
+      client_secret: c0ntrail123
+    authentication:
+      policy:
+        countFailuresWithinSeconds: null
+        lockoutAfterFailures: null
+        lockoutPeriodSeconds: null
+    batch:
+      password: c0ntrail123
+      username: admin
+    catalina_opts: -Xmx768m -XX:MaxPermSize=256m
+    cc:
+      client_secret: c0ntrail123
+      token_secret: c0ntrail123
+    clients:
+      app-direct:
+        secret: c0ntrail123
+      cloud_controller_username_lookup:
+        authorities: scim.userids
+        authorized-grant-types: client_credentials
+        secret: c0ntrail123
+      developer_console:
+        secret: c0ntrail123
+      doppler:
+        authorities: uaa.resource
+        override: true
+        secret: c0ntrail123
+      login:
+        authorities: oauth.login,scim.write,clients.read,notifications.write,critical_notifications.write,emails.write,scim.userids,password.write
+        authorized-grant-types: authorization_code,client_credentials,refresh_token
+        override: true
+        redirect-uri: http://login.192.168.0.100.xip.io
+        scope: openid,oauth.approvals
+        secret: c0ntrail123
+      notifications:
+        authorities: cloud_controller.admin,scim.read
+        authorized-grant-types: client_credentials
+        secret: c0ntrail123
+    ldap: null
+    login: null
+    no_ssl: http
+    restricted_ips_regex: 10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}
+    scim:
+      external_groups: null
+      userids_enabled: true
+      users:
+      - admin|c0ntrail123|scim.write,scim.read,openid,cloud_controller.admin,doppler.firehose
+    spring_profiles: null
+    url: http://uaa.192.168.0.100.xip.io
+    user: null
+  uaadb:
+    address: 192.168.0.105
+    databases:
+    - name: uaadb
+      tag: uaa
+    db_scheme: postgresql
+    port: 5524
+    roles:
+    - name: uaaadmin
+      password: c0ntrail123
+      tag: admin
+releases:
+- name: cf
+  version: latest
+- name: cf-mysql
+  version: latest
+resource_pools:
+- cloud_properties:
+    instance_type: m1.small
+  env:
+    bosh:
+      password: c0ntrail123
+  name: small_z1
+  network: cf-network
+  size: 9
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.small
+  env:
+    bosh:
+      password: c0ntrail123
+  name: small_z2
+  network: cf2
+  size: 0
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.medium
+  env:
+    bosh:
+      password: c0ntrail123
+  name: medium_z1
+  network: cf-network
+  size: 9
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.medium
+  env:
+    bosh:
+      password: c0ntrail123
+  name: medium_z2
+  network: cf2
+  size: 0
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.large
+  env:
+    bosh:
+      password: c0ntrail123
+  name: large_z1
+  network: cf-network
+  size: 1
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.large
+  env:
+    bosh:
+      password: c0ntrail123
+  name: large_z2
+  network: cf2
+  size: 0
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.large
+  env:
+    bosh:
+      password: c0ntrail123
+  name: runner_z1
+  network: cf-network
+  size: 1
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.large
+  env:
+    bosh:
+      password: c0ntrail123
+  name: runner_z2
+  network: cf2
+  size: 0
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.medium
+  env:
+    bosh:
+      password: c0ntrail123
+  name: router_z1
+  network: cf-network
+  size: 2
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.medium
+  env:
+    bosh:
+      password: c0ntrail123
+  name: router_z2
+  network: cf2
+  size: 0
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.small
+  env:
+    bosh:
+      password: c0ntrail123
+  name: small_errand
+  network: cf-network
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+- cloud_properties:
+    instance_type: m1.large
+  env:
+    bosh:
+      password: c0ntrail123
+  name: xlarge_errand
+  network: cf-network
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+update:
+  canaries: 1
+  canary_watch_time: 30000-600000
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 5000-600000
+
