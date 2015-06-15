@@ -1294,6 +1294,7 @@ class FlapAgentScaleInit (object):
         #
         cn_ssh_fd = self.cn_ssh_fds[cn_index]
         cn_ip = self.cn_ips[cn_index]
+        cn_ip_alternate = self.cn_ips_alternate[cn_index]
 
         #
         # Login info
@@ -1387,7 +1388,7 @@ class FlapAgentScaleInit (object):
         if background:
             process = multiprocessing.Process(
                 target=bgp_scale_mock_agent, args=(
-                    cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, rtr_ip, rtr_ip2, xmpp_source, ri_domain_and_proj_name, ri_name, ninstances, import_targets_per_instance, family, nh, test_id, nagents, nroutes, oper, sleeptime, logfile_name_bgp_stress,
+                    cn_usr, cn_pw, rt_usr, rt_pw, cn_ip_alternate, rtr_ip, rtr_ip2, xmpp_source, ri_domain_and_proj_name, ri_name, ninstances, import_targets_per_instance, family, nh, test_id, nagents, nroutes, oper, sleeptime, logfile_name_bgp_stress,
                     logfile_name_results, timeout_minutes_poll_prefixes, background, xmpp_start_prefix, xmpp_start_prefix_large, skip_krt_check, self.report_stats_during_bgp_scale, self.report_cpu_only_at_peak_bgp_scale, skip_rtr_check, self.bgp_env, no_verify_routes, self._args.logging_etc))
             process.start()
             self.process.append(process)
@@ -1401,7 +1402,7 @@ class FlapAgentScaleInit (object):
         #
         else:
             bgp_scale_mock_agent(
-                cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, rtr_ip, rtr_ip2, xmpp_source, ri_domain_and_proj_name, ri_name, ninstances, import_targets_per_instance, family, nh, test_id, nagents, nroutes, oper, sleeptime, logfile_name_bgp_stress, logfile_name_results,
+                cn_usr, cn_pw, rt_usr, rt_pw, cn_ip_alternate, rtr_ip, rtr_ip2, xmpp_source, ri_domain_and_proj_name, ri_name, ninstances, import_targets_per_instance, family, nh, test_id, nagents, nroutes, oper, sleeptime, logfile_name_bgp_stress, logfile_name_results,
                 timeout_minutes_poll_prefixes, background, xmpp_start_prefix, xmpp_start_prefix_large, skip_krt_check, self.report_stats_during_bgp_scale, self.report_cpu_only_at_peak_bgp_scale, skip_rtr_check, self.bgp_env, no_verify_routes, self._args.logging_etc)
             self._log_print("INFO: started bgp_stress_test.%s" % run_id)
 
@@ -2091,11 +2092,14 @@ class FlapAgentScaleInit (object):
         #
         cn_ips = re.split(",", "".join(self._args.control_node_ips.split()))
         self.cn_ips = []
+        self.cn_ips_alternate = []
         for index in range(len(cn_ips)):
+
             #
-            # Get Control Node IP, just for readability
+            # Get Control Node IP.
             #
             self.cn_ips.append(re.search('\d+.*\d+', cn_ips[index]).group())
+            self.cn_ips_alternate.append("1.1.1." + re.search('\d+$', cn_ips[index]).group())
 
         #
         # Check for test server to control node rules - note that the arg is passed in
