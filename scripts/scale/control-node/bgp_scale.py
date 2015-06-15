@@ -176,7 +176,7 @@ def get_total_prefix_expectations(ninstances, import_targets_per_instance, nagen
 # end get_total_prefix_expectations
 
 
-def bgp_scale_mock_agent(cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, rt_ip, rt_ip2, xmpp_src, ri_domain, ri_name, ninstances, import_targets_per_instance, family, nh, test_id, nagents, nroutes, oper, sleep_time, logfile_name_bgp_stress, logfile_name_results, timeout_minutes_poll_prefixes, background, xmpp_prefix, xmpp_prefix_large_option, skip_krt_check, report_stats_during_bgp_scale, report_cpu_only_at_peak_bgp_scale, skip_rtr_check, bgp_env, no_verify_routes, logging):
+def bgp_scale_mock_agent(cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, cn_ip_alternate, rt_ip, rt_ip2, xmpp_src, ri_domain, ri_name, ninstances, import_targets_per_instance, family, nh, test_id, nagents, nroutes, oper, sleep_time, logfile_name_bgp_stress, logfile_name_results, timeout_minutes_poll_prefixes, background, xmpp_prefix, xmpp_prefix_large_option, skip_krt_check, report_stats_during_bgp_scale, report_cpu_only_at_peak_bgp_scale, skip_rtr_check, bgp_env, no_verify_routes, logging):
     '''Performs bgp stress test
     '''
 
@@ -297,7 +297,7 @@ def bgp_scale_mock_agent(cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, rt_ip, rt_ip2, xmp
     # Command to instantiate bgp_stress_test
     #
     bgp_stress_test_command = '%s ./bgp_stress_test --no-multicast --xmpp-port=5269 --xmpp-server=%s --xmpp-source=%s --ninstances=%s --instance-name=%s --test-id=%s --nagents=%s --nroutes=%s --xmpp-nexthop=%s %s %s %s %s' % (
-        bgp_env, cn_ip, xmpp_src, ninstances, instance_name, test_id, nagents, nroutes, nh, xmpp_start_prefix, xmpp_prefix_large, logging, logfile_name)
+        bgp_env, cn_ip_alternate, xmpp_src, ninstances, instance_name, test_id, nagents, nroutes, nh, xmpp_start_prefix, xmpp_prefix_large, logging, logfile_name)
 
     #
     # Get stats before test run
