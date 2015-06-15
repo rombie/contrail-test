@@ -12,6 +12,7 @@ import socket
 import subprocess
 
 from vnc_api.vnc_api import *
+from vnc_api import vnc_api
 import cfgm_common.exceptions
 
 import json
@@ -36,7 +37,7 @@ class VnCfg(object):
         if self._quantum == None:
             httpclient = HTTPClient(username='admin',
                                     tenant_name='demo',
-                                    password='contrail123',
+                                    password='c0ntrail123',
                                     # region_name=self._region_name,
                                     auth_url='http://%s:5000/v2.0' % (self._args.api_server_ip))
             httpclient.authenticate()
@@ -149,9 +150,9 @@ class VnCfg(object):
             'api_server_port': '8082',
         }
         ksopts = {
-            'admin_user': 'user1',
-            'admin_password': 'password1',
-            'admin_tenant_name': 'default-domain',
+            'admin_user': 'admin',
+            'admin_password': 'c0ntrail123',
+            'admin_tenant_name': 'demo',
             'vn_name          ': 'public'
         }
 

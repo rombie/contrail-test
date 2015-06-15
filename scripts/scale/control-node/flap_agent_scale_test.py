@@ -102,7 +102,7 @@ class FlapAgentScaleInit (object):
         #
         # Get linux distribution for all nodes
         #
-        self._get_linux_distribution()
+        # self._get_linux_distribution()
 
         #
         # Install any packages needed
@@ -405,7 +405,7 @@ class FlapAgentScaleInit (object):
         # Note: - the delete is there to preclude previous run overlap.,
         #         try and avoid the delete when numbers get over 1K
         #
-        if self.pre_scale_setup:
+        if True or self.pre_scale_setup:
             if int(self._args.del_vn_before_create):
                 self.add_or_delete_vns("del")
             else:
