@@ -16,9 +16,9 @@ import cfgm_common.exceptions
 
 import json
 from pprint import pformat
-from quantumclient.quantum import client
-from quantumclient.client import HTTPClient
-from quantumclient.common import exceptions
+from neutronclient.neutron import client
+from neutronclient.client import HTTPClient
+from neutronclient.common import exceptions
 
 
 class VnCfg(object):
