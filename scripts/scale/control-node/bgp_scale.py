@@ -296,8 +296,8 @@ def bgp_scale_mock_agent(cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, cn_ip_alternate, r
     #
     # Command to instantiate bgp_stress_test
     #
-    bgp_stress_test_command = '%s ./bgp_stress_test --no-multicast --xmpp-port=5269 --xmpp-server=%s --xmpp-source=%s --ninstances=%s --instance-name=%s --test-id=%s --nagents=%s --nroutes=%s --xmpp-nexthop=%s %s %s %s %s' % (
-        bgp_env, cn_ip_alternate, xmpp_src, ninstances, instance_name, test_id, nagents, nroutes, nh, xmpp_start_prefix, xmpp_prefix_large, logging, logfile_name)
+    bgp_stress_test_command = './bgp_stress_test --no-multicast --xmpp-port=5269 --xmpp-server=%s --xmpp-source=%s --ninstances=%s --instance-name=%s --test-id=%s --nagents=%s --nroutes=%s --xmpp-nexthop=%s %s %s %s %s' % (
+        cn_ip_alternate, xmpp_src, ninstances, instance_name, test_id, nagents, nroutes, nh, xmpp_start_prefix, xmpp_prefix_large, logging, logfile_name)
 
     #
     # Get stats before test run
@@ -340,7 +340,7 @@ def bgp_scale_mock_agent(cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, cn_ip_alternate, r
         #
         log_print("INFO: Starting bgp_stress on localhost %s" %
                   (localhost_ip), fd)
-        BGP_STRESS = Command(bgp_stress_test_command)
+        BGP_STRESS = Command(bgp_stress_test_command, bgp_env)
         BGP_STRESS.start()
         bgp_start_time = datetime.now()
         log_print("INFO: notable_event started bgp_stress at timestamp: %s" %
@@ -585,6 +585,7 @@ def post_install_tasks(cnshell_self, cn_self, rt_self, cn_ip, rt_ip, oper, sleep
     else:
         msg = "%s %s test" % (test_info, oper)
 
+    sleep_time = 10
     log_print(
         "INFO: sleeping for %s seconds after prefix installation of: %s" %
         (sleep_time, msg), fd)
