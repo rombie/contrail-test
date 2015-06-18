@@ -2,6 +2,16 @@
 
 require 'pp'
 
+n=<<EOF
+| 365cb108-0ae0-4ce2-bf69-467f1d60d175 | anantha-bgp-scale-node-config1-10-84-34-189            | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.4; internet=192.168.0.94  |
+| fed60789-e6fe-4874-8b4f-1ead52ecc374 | anantha-bgp-scale-node-control1-10-84-34-192           | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.3; internet=192.168.0.86  |
+| 7ef49f70-0955-4798-b667-c98c761e19b3 | anantha-bgp-scale-node-control2-10-84-34-151           | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.7; internet=192.168.0.105 |
+| d5a16357-dcfe-4a05-809c-60c58d7607cc | anantha-bgp-scale-node-testserver1-10-84-34-169        | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.1; internet=192.168.0.22  |
+| c81d79d8-f891-4a82-a0c2-017fc97192ee | anantha-bgp-scale-node-testserver2-10-84-34-153        | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.2; internet=192.168.0.66  |
+| 11b7dd98-11b9-41b6-be97-bbbf60a22bb5 | anantha-bgp-scale-node-vsrx1-10-84-34-156              | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.5; internet=192.168.0.95  |
+| c3cb07c8-2038-4581-82f1-e9e891971253 | anantha-bgp-scale-node-vsrx2-10-84-34-157              | BUILD   | spawning   | NOSTATE     | bgp_scale_l2=1.1.0.6; internet=192.168.0.102 |
+EOF
+
 @cluster = "10.84.26.23"
 @user = ENV["USER"]
 
@@ -59,11 +69,21 @@ EOF
         type = $1
         public_ip = "#{$2}.#{$3}.#{$4}.#{$5}"
         private_ip = "#{$6}.#{$7}.#{$8}.#{$9}"
+        secondary_ip = "1.1.1.#{$9}"
         @nodes[type] = {
-            :host => node, :private_ip => private_ip, :public_ip => public_ip
+            :host => node, :private_ip => private_ip, :public_ip => public_ip,
+            :secondary_ip => secondary_ip
         }
     }
     pp @nodes
+end
+
+def configure_secondary_ip
+    @nodes.each { |type, node|
+        next if type =~ /vsrx/
+        rsh(node[:public_ip], "ifconfig eth1 up")
+        rsh(node[:public_ip], "ip addr add #{node[:secondary_ip]}/24 dev eth1")
+    }
 end
 
 def fix_nodes
@@ -212,8 +232,10 @@ EOF
 end
 
 def main
-    create_nodes_in_cluster
+    # create_nodes_in_cluster
     load_nodes_from_cluster
+    configure_secondary_ip
+    exit
     fix_nodes
     copy_and_install_contrail_image
     setup_topo
