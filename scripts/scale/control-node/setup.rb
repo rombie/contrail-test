@@ -229,9 +229,10 @@ def run_bgp_scale_test
     commands = <<EOF
 git clone -b bgp_scale https://github.com/rombie/contrail-test.git /root/contrail-test
 cd /root/contrail-test/scripts/scale/control-node
-export PYTHONPATH=/root/contrail-test/scripts
+export PYTHONPATH=/root/contrail-test
 sshpass -p c0ntrail123 scp ci-admin@10.84.5.31:/cs-shared/bgp-scale/libtcmalloc.so.4 /usr/lib/.
 sshpass -p c0ntrail123 scp ci-admin@10.84.5.31:/cs-shared/bgp-scale/bgp_stress_test /root/contrail-test/scripts/scale/control-node/.
+apt-get -y install python-neutronclient python-contrail python-xmltodict python-requests
 mkdir -p /root/bgp
 python flap_agent_scale_test.py -c params.ini
 EOF
