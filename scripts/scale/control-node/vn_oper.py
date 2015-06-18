@@ -125,7 +125,10 @@ class VnCfg(object):
         vnsn_data = VnSubnetsType([subnet_vnc])
         vn_obj.add_network_ipam(self._ipam_obj, vnsn_data)
 
-        self._vnc_lib.virtual_network_create(vn_obj)
+        try:
+            self._vnc_lib.virtual_network_create(vn_obj)
+        except RefsExistError:
+            pass
     # end _create_vn_list`
 
     def _parse_args(self, args_str):

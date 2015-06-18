@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 import multiprocessing
 import traceback
 import logging
+import pdb
 
 #
 # Contrail libs
@@ -397,7 +398,7 @@ class FlapAgentScaleInit (object):
         #
         # Add secondary addresses to the test-server running bgp_stress_test
         #
-        if not self.pre_scale_setup:
+        if self.pre_scale_setup:
             self.add_secondaries()
 
         #
