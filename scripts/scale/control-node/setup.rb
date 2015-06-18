@@ -160,10 +160,10 @@ def build_contrail_software
 end
 
 def setup_junos_peering
-JUNOS_CONFIG=<<EOF # root/Embe1mpls
-set system root-authentication encrypted-password "$1$VNoPnwuS$U/FCaPz73yK0zPRQWTllq0"
+junos_config=<<EOF # root/Embe1mpls
+set version "12.1I0 [xzhu]"
+set system root-authentication encrypted-password "$1$DrI4JfM1$fx2W5MkiQDDJOvCvmnGjq."
 set system services ssh root-login allow
-set system services web-management http interface ge-0/0/0.0
 set system license autoupdate url https://ae1.juniper.net/junos/key_retrieval
 set interfaces ge-0/0/0 unit 0 family inet dhcp
 set interfaces ge-0/0/1 unit 0
@@ -172,8 +172,7 @@ set protocols bgp keep all
 set protocols bgp group ibgp family inet unicast
 set protocols bgp group ibgp family inet-vpn unicast
 set protocols bgp group ibgp peer-as 64512
-set protocols bgp group ibgp neighbor 192.168.0.22
-set protocols bgp group ibgp neighbor 192.168.0.66
+set protocols bgp group ibgp allow 192.168.0.0/16
 set security forwarding-options family mpls mode packet-based
 EOF
 cmd=<<EOF
