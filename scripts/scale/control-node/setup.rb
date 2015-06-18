@@ -70,6 +70,7 @@ EOF
         public_ip = "#{$2}.#{$3}.#{$4}.#{$5}"
         private_ip = "#{$6}.#{$7}.#{$8}.#{$9}"
         secondary_ip = "1.1.1.#{$9}"
+        node = $1 if node =~ /\s+(#{ENV['USER']}-bgp-scale-node-.*?)\s+/
         @nodes[type] = {
             :host => node, :private_ip => private_ip, :public_ip => public_ip,
             :secondary_ip => secondary_ip
@@ -78,7 +79,7 @@ EOF
     pp @nodes
 end
 
-def configure_secondary_ip
+def configure_secondary_ips
     @nodes.each { |type, node|
         next if type =~ /vsrx/
         rsh(node[:public_ip], "ifconfig eth1 up")
@@ -196,10 +197,15 @@ set protocols bgp group ibgp peer-as 64512
 set protocols bgp group ibgp allow 192.168.0.0/16
 set security forwarding-options family mpls mode packet-based
 EOF
-cmd=<<EOF
-python provision_mx.py --router_name anantha-bgp-scale-node-vsrx1-10-84-34-181 --router_ip 192.168.0.86 --router_asn 64512 --api_server_ip 192.168.0.105 --api_server_port 8082 --oper add --admin_user admin --admin_password c0ntrail123 --admin_tenant_name admin
-EOF
-    sh(cmd)
+end
+
+def configure_mx_peer
+    @nodes.each { |type, node|
+        next if type !~ /vsrx/
+
+        rsh(@nodes["config1"][:public_ip],
+"python /opt/contrail/utils/provision_mx.py --router_name #{node[:host]} --router_ip #{node[:private_ip]} --router_asn 64512 --api_server_ip #{@nodes["config1"][:private_ip]} --api_server_port 8082 --oper add --admin_user admin --admin_password c0ntrail123 --admin_tenant_name admin")
+    }
 end
 
 def create_l2
@@ -232,14 +238,14 @@ EOF
 end
 
 def main
-    # create_nodes_in_cluster
+    create_nodes_in_cluster
     load_nodes_from_cluster
-    configure_secondary_ip
-    exit
     fix_nodes
     copy_and_install_contrail_image
     setup_topo
     install_contrail
+    configure_secondary_ips
+    configure_mx_peer
 end
 
 main
