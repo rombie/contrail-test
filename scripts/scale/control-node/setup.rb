@@ -68,6 +68,7 @@ end
 
 def fix_nodes
     @nodes.each { |type, node|
+        next if type !~ /config|control/
         cmds = <<EOF
 apt-get -y remove python-iso8601
 apt-get -y autoremove
@@ -138,7 +139,7 @@ end
 
 def copy_and_install_contrail_image (image = "/github-build/mainline/2616/ubuntu-12-04/icehouse/contrail-install-packages_3.0-2616~icehouse_all.deb")
     @nodes.each { |type, node|
-        next if type =~ /test/
+        next if type !~ /config|control/
         Process.fork {
             rcp(node[:public_ip], image)
             rsh(node[:public_ip], "dpkg -i #{File.basename image}")
