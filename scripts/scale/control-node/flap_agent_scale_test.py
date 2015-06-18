@@ -55,7 +55,7 @@ class FlapAgentScaleInit (object):
         if not args_str:
             args_str = ' '.join(sys.argv[1:])
         self._parse_args(args_str)
-        self.pre_scale_setup = pre_scale_setup
+        self.pre_scale_setup = self._args.run_vn
 
         #
         # Use for logging where each iteration can be logged
@@ -102,7 +102,7 @@ class FlapAgentScaleInit (object):
         #
         # Get linux distribution for all nodes
         #
-        self._get_linux_distribution()
+        # self._get_linux_distribution()
 
         #
         # Install any packages needed
@@ -2105,7 +2105,6 @@ class FlapAgentScaleInit (object):
         # Check for test server to control node rules - note that the arg is passed in
         # and not in the params file
         #
-        #import pdb; pdb.set_trace ()
         if self._args.ts_cn_one_to_one:
             self.cn_index = int(self._args.ts_cn_one_to_one)
         else:
@@ -2174,7 +2173,6 @@ class FlapAgentScaleInit (object):
             self.import_targets_per_instance.append(
                 int(import_targets_per_instance_list[index]))
 
-        #import pdb; pdb.set_trace ()
         #
         # Derive run mode:
         #   standalone - test-server, contrail-control, and api-services all run on one node
@@ -2572,7 +2570,6 @@ class FlapAgentScaleInit (object):
         # Loop thru contrail-control IPs
         #
         # for index in range (len(cn_ips)):
-        #import pdb; pdb.set_trace ()
         cn_start_index, num_control_nodes = self._get_cn_range()
         if self.set_general_vn_name_across_testservers:
             self._log_print(
@@ -2694,6 +2691,7 @@ class FlapAgentScaleInit (object):
     # end add_or_delete_vns
 
     def _check_vn_deleted(self, instance_name, cn, ip):
+        return 0
 
         #
         # Set start time, in case we need to time out
@@ -2923,7 +2921,6 @@ class FlapAgentScaleInit (object):
         # Oeverride derived vn mames if param set.
         # Often uses for multiple contrail-control per agent trick
         #
-        #import pdb; pdb.set_trace ()
         if self.set_general_vn_name_across_testservers:
             vn_basename = self._args.vn_basename
         else:
