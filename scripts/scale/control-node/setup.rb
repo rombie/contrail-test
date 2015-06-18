@@ -29,20 +29,20 @@ end
 
 def junos_setup
     csh("glance image-create --container-format bare --disk-format raw --progress --file bgp-scale-vsrx.img --name bgp-scale-vsrx --is-public True")
-    rsh("launch_vms.rb -n #{@user}-bgp-scale-node-vsrx1")
 end
 
 def create_nodes_in_cluster
     csh([%{/root/CI_ADMIN/ci-openstack.sh nova list | \grep #{@user} | \grep bgp-scale | awk '{print $2}' | xargs /root/CI_ADMIN/ci-openstack.sh nova delete}], true
     )
+    cmn = "launch_vms.rb --second-nic bgp_scale_l2 --flavor m1.xlarge"
     cmds = <<EOF
-launch_vms.rb -s bgp_scale_l2 -j -n #{@user}-bgp-scale-node-vsrx1 1
-launch_vms.rb -s bgp_scale_l2 -j -n #{@user}-bgp-scale-node-vsrx2 1
-launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-config1 1
-launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-control1 1
-launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-control2 1
-launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-testserver1 1
-launch_vms.rb -s bgp_scale_l2 -u -n #{@user}-bgp-scale-node-testserver2 1
+#{cmn} -j -n #{@user}-bgp-scale-node-vsrx1 1
+#{cmn} -j -n #{@user}-bgp-scale-node-vsrx2 1
+#{cmn} -u -n #{@user}-bgp-scale-node-config1 1
+#{cmn} -u -n #{@user}-bgp-scale-node-control1 1
+#{cmn} -u -n #{@user}-bgp-scale-node-control2 1
+#{cmn} -u -n #{@user}-bgp-scale-node-testserver1 1
+#{cmn} -u -n #{@user}-bgp-scale-node-testserver2 1
 EOF
     cmds.split(/\n/).each { |cmd| Process.fork { csh([cmd]) } }
     Process.waitall
@@ -212,7 +212,7 @@ EOF
 end
 
 def main
-#   create_nodes_in_cluster
+    create_nodes_in_cluster
     load_nodes_from_cluster
     fix_nodes
     copy_and_install_contrail_image
