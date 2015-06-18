@@ -232,7 +232,7 @@ cd /root/contrail-test/scripts/scale/control-node
 export PYTHONPATH=/root/contrail-test
 sshpass -p c0ntrail123 scp ci-admin@10.84.5.31:/cs-shared/bgp-scale/libtcmalloc.so.4 /usr/lib/.
 sshpass -p c0ntrail123 scp ci-admin@10.84.5.31:/cs-shared/bgp-scale/bgp_stress_test /root/contrail-test/scripts/scale/control-node/.
-apt-get -y install python-neutronclient python-contrail python-xmltodict python-requests
+apt-get -y install python-neutronclient python-contrail python-xmltodict python-requests contrail-lib gdb
 mkdir -p /root/bgp
 python flap_agent_scale_test.py -c params.ini
 EOF
