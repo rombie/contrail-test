@@ -585,7 +585,6 @@ def post_install_tasks(cnshell_self, cn_self, rt_self, cn_ip, rt_ip, oper, sleep
     else:
         msg = "%s %s test" % (test_info, oper)
 
-    sleep_time = 10
     log_print(
         "INFO: sleeping for %s seconds after prefix installation of: %s" %
         (sleep_time, msg), fd)
