@@ -32,7 +32,10 @@ class Netcat(BaseTraffic):
         self.dport = dport
         self.inputs = sender_vm_fix.inputs
         self.logger = self.inputs.logger
-        self.pkt_count = pkt_count
+        if pkt_count:
+            self.pkt_count = pkt_count
+        else:
+            self.pkt_count = 1
 
         result, pid_recv = self.start_nc_receiver()
         if not result:
@@ -126,8 +129,6 @@ class Netcat(BaseTraffic):
             self,
             data=default_data):
 
-        if not self.pkt_count:
-            pkt_count = 1
         pid_sender = None
         sent = 0
         result = False
@@ -139,7 +140,7 @@ class Netcat(BaseTraffic):
             cmd1 = 'echo -e "%s" | nc.traditional %s %s -s %s -p %s -vv 2>%s 1>%s' % (
                 data, self.receiver_vm_fix.vm_ip, self.dport, self.sender_vm_fix.vm_ip, self.sport, self.result_file, self.result_file)
 
-        for i in xrange(pkt_count):
+        for i in xrange(self.pkt_count):
             output = self.sender_vm_fix.run_cmd_on_vm(
                 cmds=[cmd1],
                 as_sudo=True,
