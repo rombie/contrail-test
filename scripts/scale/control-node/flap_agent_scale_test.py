@@ -17,7 +17,6 @@ from datetime import datetime, timedelta
 import multiprocessing
 import traceback
 import logging
-import pdb
 
 #
 # Contrail libs

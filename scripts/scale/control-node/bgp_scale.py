@@ -280,7 +280,6 @@ def bgp_scale_mock_agent(cn_usr, cn_pw, rt_usr, rt_pw, cn_ip, cn_ip_alternate, r
     # Check if "--routes-send-trigger" paramter is set. Retrieve the associated
     # file name if so.
     #
-    #import pdb; pdb.set_trace ()
     try:
         trigger_file = re.search(
             'send-trigger(\s+|=)(.*)$', logging, re.IGNORECASE)
